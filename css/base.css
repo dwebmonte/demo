@@ -1,0 +1,89 @@
+body {
+	/* background-image: url("http://www.gameartguppy.com/wp-content/uploads/2011/06/feature.png");	*/
+}
+
+
+#image-container {
+  background-color: rgba(255, 255, 255, 0.65);
+  box-shadow: 0 0 2px 1px rgb(142, 142, 142);
+  overflow: hidden;
+}
+
+.navbar {
+	background: rgba(0, 0, 0, 0.75) none repeat scroll 0 0;	
+}
+
+.checkbox_label {
+  padding-left: 3px;
+  position: relative;
+  top: -2px;
+}
+
+
+.container_slider, .container_slider_bg {
+  margin-left: 3%;
+  overflow: hidden;
+  position: relative;
+  width: 94%;
+}
+
+.slider_image, .slider_image_bg {
+	width: 100%;
+}
+
+.slider_image div, .slider_image_bg div {
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  border: 2px solid white;
+  border-radius: 2px;
+  height: 115px;
+  margin-right: 10px;
+  padding-right: 10px;
+  width: 160px;
+}
+
+.slider_image li, .slider_image_bg li {
+	margin-right: 15px;
+}
+
+
+.fa-angle-left,  .fa-angle-right{
+    cursor: pointer;
+	display: block;
+	font-size: 78px;
+    position: absolute;
+    top: 19px;
+	text-decoration: none;
+}
+
+.fa-angle-left {
+    left: 4px;
+}
+
+.fa-angle-right {
+    right: 4px;
+}
+
+
+.preload {
+	display: block;
+	position: absolute;
+	left: -9999px;
+	top: 0px;
+}
+
+
+#save_form button {
+    padding-left: 20px;
+    padding-right: 20px;
+    color: #bfbfbf;
+    padding-bottom: 23.5px;
+    padding-top: 23.5px;
+    line-height: 18px;
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    border: medium none;	
+}
+
+#save_form button:hover {
+	color: white;
+}

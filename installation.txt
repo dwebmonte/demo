@@ -1,0 +1,15 @@
+Installation
+
+1. copy files of project to working directory
+2. create database
+3. put tables to created database (install_sql.sql)
+4. set database settings in constants (classes/constants.php ) DB_HOST, DB_USER, DB_PASSWORD, DB_NAME
+5. run scripts manually or using cron
+	/parser_benzinga.php - parse links from benzinga.com
+	/parser_benzinga_articles.php - parse articles from benzinga.com
+	/parser_cnbc.php - parse links from cnbc.com 
+	/parser_cnbc_articles.php - parse articles from cnbc.com 
+	/parser_marketwatch.php - parse links and articles from marketwatch.com 
+	/parser_reuters.php - parse links and articles from reuters.com 
+	/parser_zacks.php - parse links and articles from zacks.com 
+

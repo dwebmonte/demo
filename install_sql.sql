@@ -9,6 +9,9 @@ SET time_zone = "+00:00";
 
 -- --------------------------------------------------------
 
+CREATE DATABASE IF NOT EXISTS `news_aggregator`;
+USE `news_aggregator`;
+
 --
 -- Структура таблицы `article`
 --

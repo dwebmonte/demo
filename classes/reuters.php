@@ -123,7 +123,6 @@ class reuters extends iParser {
 		$data_article = iDB::rows("SELECT id, title, url FROM article WHERE parsed=0 AND url LIKE 'https://www.reuters.com%' ORDER BY id LIMIT {$max_count}");
 		if (is_array($data_article))
 		foreach ($data_article as $oArticle) {
-		
 			$oArticle->url = str_replace('https://www.reuters.com//www.reuters.com', 'https://www.reuters.com', $oArticle->url);
 		
 			$content = $this->load( $oArticle->url );
@@ -146,13 +145,13 @@ class reuters extends iParser {
 				
 				// удаляем все ненужное
 				
-				$J->find(".PrimaryAsset_container", 0)->innertext = "";
-				$J->find(".Image_container", 0)->innertext = "";
-				$J->find(".StandardArticleBody_trustBadgeContainer", 0)->innertext = "";
-				$J->find(".Attribution_container", 0)->innertext = "";
+				@$J->find(".PrimaryAsset_container", 0)->innertext = "";
+				@$J->find(".Image_container", 0)->innertext = "";
+				@$J->find(".StandardArticleBody_trustBadgeContainer", 0)->innertext = "";
+				@$J->find(".Attribution_container", 0)->innertext = "";
 
 				
-				$json["text"] = $J->find(".StandardArticleBody_body", 0)->plaintext;
+				if ($el = $J->find(".StandardArticleBody_body", 0)) $json["text"] = $el->plaintext;
 				
 				$json["response"] = $this->response;
 				iDB::updateSQL("article", $json, "id={$oArticle->id}");

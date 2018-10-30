@@ -7,7 +7,7 @@ session_set_cookie_params($session_time, "/", false, false);
 ini_set('session.gc_maxlifetime', $session_time);
 ini_set('session.use_cookies', 1);
 session_start();
-
+date_default_timezone_set('Europe/Kiev');
 
 $self_fn = str_ireplace('\\','/',__FILE__);
 define("ROOT", str_ireplace( "classes/".basename($self_fn ), "", $self_fn ));

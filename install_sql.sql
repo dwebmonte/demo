@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `article` (
   `url` varchar(1024) NOT NULL DEFAULT '',
   `md5` varchar(32) NOT NULL DEFAULT '',
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `text` text NOT NULL,
+  `text` text,
   `sub_title` varchar(512) NOT NULL DEFAULT '',
   `category` varchar(127) NOT NULL DEFAULT '',
   `key_point` varchar(1024) NOT NULL DEFAULT '',

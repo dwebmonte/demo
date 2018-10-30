@@ -192,6 +192,13 @@ class iParser {
 	}
 	
 	function add_article($article) {
+		$article["url"] = str_replace('https://www.reuters.com//www.reuters.com', 'https://www.reuters.com', $article["url"]);
+		$article["url"] = str_replace('https://www.benzinga.comhttps://www.benzinga.com/', 'https://www.benzinga.com/', $article["url"]);
+		$article["url"] = str_ireplace('https://www.cnbc.comhttps://www.cnbc.com/', 'https://www.cnbc.com/', $article["url"]);
+		$article["url"] = str_replace('https://www.marketwatch.comhttps://www.marketwatch.com/', 'https://www.marketwatch.com/', $article["url"]);
+		$article["url"] = str_replace('https://www.zacks.comhttps://www.zacks.com/', 'https://www.zacks.com/', $article["url"]);
+		
+		
 		$article["url"] = real_https(trim($article["url"]), $this->domain);
 		$article["title"] = trim($article["title"]);
 	

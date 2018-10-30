@@ -43,17 +43,6 @@ class iSmarty extends Smarty {
 		// Фильтры вывода
 		$this->autoload_filters['pre'][] = 'replacements';		
 		//$this->config_load(ROOT_PROJECT.'/config/modules.conf');
-
-		
-
-		// Временные зоны
-		$GLOBALS['_default_timezone'] = date_default_timezone_get();
-		
-		$time_zone = $this->get_config_vars('time_zone_diff');
-		if (!is_null($time_zone)) $GLOBALS['_user_timezone'] = $time_zone; else $GLOBALS['_user_timezone'] = $GLOBALS['_default_timezone']; 
-		
-		date_default_timezone_set($GLOBALS['_user_timezone']);	
-		iDB::exec("SET `time_zone`='".date('P')."'");
 	}
 	
 	

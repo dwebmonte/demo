@@ -11,8 +11,9 @@ sudo systemctl start httpd
 
 sudo grep 'temporary password' /var/log/mysqld.log
 sudo mysql_secure_installation
-
 sudo mysql -u root -p < /var/www/html/install_sql.sql
 
 sudo chcon -t httpd_sys_content_t /var/www/html -R
 sudo chcon -t httpd_sys_rw_content_t /var/www/html -R
+
+sudo crontab /var/www/html/scripts/cron

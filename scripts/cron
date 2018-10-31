@@ -1,0 +1,7 @@
+*/5 * * * * wget -O- http://localhost/parser_benzinga.php
+*/5 * * * * wget -O- http://localhost/parser_benzinga_articles.php
+*/5 * * * * wget -O- http://localhost/parser_cnbc.php
+*/5 * * * * wget -O- http://localhost/parser_cnbc_articles.php
+*/5 * * * * wget -O- http://localhost/parser_marketwatch.php
+*/5 * * * * wget -O- http://localhost/parser_reuters.php
+*/5 * * * * wget -O- http://localhost/parser_zacks.php

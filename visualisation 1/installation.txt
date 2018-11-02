@@ -1,0 +1,14 @@
+1. Переносим файлы в рабочую директорию
+
+2. Делаем правки в файле config.php
+	2.1 Выставляем константы по работе с базой данных - DB_HOST, DB_USER, DB_PASSWORD, DB_NAME
+	2.2 Выставляем url сайта (без http://) - DOMAIN
+	2.3 Выставляем url папки .assets (с http://) - ASSETS_PATH
+	
+3. Делаем правки в файле manifest/document.xml
+	228 строчка, узел <var name="basePath" value="/crm/trend" />
+	выставляем там относительный путь к сайту, например
+	
+	если http://mysite/crm, то там будет value="/crm"
+	если http://mysite/crm/trend, то там будет value="/crm/trend"
+	

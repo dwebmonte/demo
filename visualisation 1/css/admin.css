@@ -1,0 +1,89 @@
+ul.user-info-menu .xe-widget {
+	border-right: 1px solid silver;
+	padding-bottom: 0px;
+	margin-bottom: 0px;
+	margin-top: 20px;
+	transition: 5s all ease;
+}
+
+ul.user-info-menu .wm_check_for_update {
+	opacity: 0.1;
+}
+
+
+ul.user-info-menu .xe-widget .xe-label {
+	margin-bottom: 0px;
+	padding-bottom: 0px;
+	margin-top: 0px;
+	padding-top: 0px;
+	text-align: center;
+	min-width: 85px;
+}
+
+ul.user-info-menu .xe-widget .xe-label  .num {
+	font-size: 22px;
+	color: #1b8d04;
+}
+
+ul.user-info-menu .xe-widget .xe-icon {
+	margin: 0px;
+	padding: 0px;
+	display: inline;
+	float: left;
+}
+
+.panel, .panel .panel-body {
+	transition: 0.3s all ease;
+}
+
+.panel.wm_check_for_update {
+	background-image: url(img/ajax.svg);
+	background-position: center 10%;
+	background-repeat: no-repeat;
+}
+
+.panel.wm_check_for_update .panel-body {
+	opacity: 0.1;
+}
+
+.tabs-vertical-env .form-group-separator {
+	border: none;
+	background: white;
+}
+
+.bottom_detail_block{
+	text-align: left;
+	background-color: white;
+	padding: 5px 15px;
+	line-height: 22px;
+	border: 1px solid #eaeaea;
+}
+
+
+
+dt {
+	font-weight: 700;
+	padding-top: 10px;
+}
+
+
+dd {
+	margin-left: 0;
+	border-bottom: 1px solid #ececec;
+	padding-bottom: 6px;
+}
+
+
+.tab-pane.similar {
+	min-height: 200px;
+	background-position: center center;
+	background-repeat: no-repeat;
+}
+
+.tab-pane.similar.in_progress {
+	background-image: url(img/ajax.svg);
+}
+
+table.similar_table td, table.similar_bool_table td {
+	text-align: left;
+}

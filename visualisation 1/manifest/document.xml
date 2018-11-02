@@ -1,0 +1,236 @@
+<?xml version="1.0"?>
+<document crystalVersion="1.0" access="11111">
+	
+	<leftMenu>
+
+		
+		<item url="/" icon="fa-newspaper-o">Articles</item>
+		<item url="/logs" icon="fa-tasks">Logs</item>
+		<item url="/proxy" icon="fa-cloud-download">Proxy</item>
+		<item url="/testing" icon="fa-cubes">Categories</item>
+		<item url="/testing-related" icon="fa-random">Related articles</item>
+		
+		
+		
+	</leftMenu>
+
+	
+	<page url="/testing-related" title="Related articles" description="" template-page="admin/testing-related.tpl">
+		<table name="article"  parent="#user_article_wrapper" read-only="true" autoinc="true">
+			<fields format="input">
+				<field name="id">№</field>
+				<field name="title" render="article_title" width="70%">Title</field>
+				
+				<field name="time">Updated</field>
+				<field name="_detail" title="" format="_detail" className='details-control' orderable="false" defaultContent="" data="null"/>				
+				
+				<field name="detail"  visible="false">detail</field>
+			</fields>
+		</table>		
+	</page>
+	
+	
+	<page url="/testing" title="Recognition" description="Recognition of categories and related articles" template-page="admin/testing.tpl">
+		<!-- Список всех категорий -->
+		<table name="cnbc_category"  api-load="get/cnbc_category" parent="#categories_cnbc_wrapper" read-only="true" autoinc="true">
+			<fields>
+				<field name="id" visible="false">№</field>
+				<field name="title" width="40%">Title</field>
+				<field name="parent_title" width="30%">Parent title</field>
+				<field name="level" width="15%">Level</field>
+				<field name="count" width="15%">Count</field>
+			</fields>
+		</table>	
+		<!-- Список распознанных категорий -->
+		<table name="recognized_categories_cnbc"  parent="#recognized_categories_cnbc_wrapper" read-only="true" autoinc="true">
+			<fields>
+				<field name="category_title" width="60%">Title</field>
+				<field name="count" width="10%">Count</field>
+				<field name="sum" width="10%">Sum</field>
+				<field name="avg" width="10%">Average</field>
+				<field name="std" width="10%">STD</field>
+			</fields>
+		</table>		
+		
+		
+		
+	
+	
+	
+	
+	
+	</page>
+	
+	<page url="/" title="Articles" description="Спарсенные статьи и их характеристики" template-page="admin/articles.tpl">
+		
+		
+		<table name="article"  parent="#tab_benzinga" read-only="true" autoinc="true">
+			<fields format="input">
+				<field name="id">№</field>
+				<field name="title" render="article_title" width="70%">Title</field>
+				
+				<field name="time">Updated</field>
+				<field name="_detail" title="" format="_detail" className='details-control' orderable="false" defaultContent="" data="null"/>				
+				
+				<field name="detail"  visible="false">detail</field>
+			</fields>
+		</table>		
+		
+		
+	</page>
+	
+	<page url="/logs" title="Логи" description="Логи соединения и закачки ссылок" template-page="admin/logs.tpl">
+		
+
+		<table name="log"  parent="#tab_benzinga" read-only="true" autoinc="true">
+			<fields format="input">
+				<field name="id" visible="false">№</field>
+			<!-- <field name="null" className="details-control">№</field> -->
+				<field name="domain">Домен</field>
+				<field name="title" render="url">Страница</field>
+				<field name="http_code">Код ответа</field>
+				<field name="total_time">Время загрузки (сек)</field>
+				<field name="connect_time">Время соединения (сек)</field>
+				<field name="size_download">Размер (байт)</field>
+				<field name="speed_download">Скорость (сек)</field>
+				<field name="time">Время</field>
+			</fields>
+		</table>		
+
+		
+	</page>	
+	
+	<page url="/proxy" title="Прокси" description="Информация о прокси">
+		<table name="proxy"  api-load="GetProxy" read-only="true" autoinc="true">
+			<fields format="input">
+				<field name="id" visible="false">№</field>
+				<field name="proxy">proxy</field>
+				<field name="country">country</field>
+				<field name="type">type</field>
+				<field name="success">success</field>
+				<field name="error">error</field>
+				<field name="banned">banned</field>
+				<field name="last_error">last error</field>
+				<field name="time">last access</field>
+			</fields>
+		</table>		
+		
+		
+	</page>
+	
+	
+	
+	<page url="/payment-info" title="Платежные реквизиты" description="Редактирование информации платежных систем " template-page="payment-info.tpl" >
+
+	
+	</page>
+	<page url="/clients" title="Клиенты" description="Данные клиентов">
+		<table name="gagarin_client" api="Table" autoinc="true">
+			<fields format="input">
+				<field name="id">№</field>
+				<field name="firstname" render="input">Имя</field>
+				<field name="lastname" render="input">Фамилия</field>
+				<field name="email1" render="email" >E-mail 1</field>
+				<field name="email2" render="email" >E-mail 2</field>				
+				<field name="firstname_died" render="input">Имя умершего</field>
+				<field name="lastname_died" render="input">Фамилия умершего</field>				
+			</fields>
+		</table>			
+	</page>	
+	
+	<page url="/payout" title="Выплаты" description="Партнерские выплаты">
+		<table name="gagarin_payout_client_wait" api-get="GetTestTable" autoinc="true" readonly="true" title="Ожидает выплаты">
+			<fields>
+				<field name="id">№</field>
+				<field name="total_sum">Сумма</field>
+				<field name="percent">Процент</field>
+				<field name="sum">К выплате</field>
+				<field name="btn_payment" render="btn_payment" width="10%">Просто поле</field>				
+			</fields>
+		</table>			
+		
+		<table name="gagarin_payout_client_done" api-get="GetTestTable" autoinc="true" readonly="true" title="Совершенные выплаты">
+			<fields>
+				<field name="id">№</field>
+				<field name="date">Дата выплаты</field>
+				<field name="sum">Сумма выплаты</field>
+				<field name="payment_doc">Реквизиты</field>				
+			</fields>
+		</table>		
+	</page>		
+	
+
+	<page url="/history" title="Главная" description="Главная страница"></page>	
+	<page url="/profile" title="Профиль" description="Редактирование личной информации" template-page="profile.tpl"></page>		
+	<page url="/deposit" title="Депозит" description="Добавьте средства на ваш аккаунт" template-page="deposit.tpl"></page>	
+	
+
+
+
+
+ 
+ 
+
+	
+	
+<!-- Админская страница -->	
+	
+	<page url="/admin_all_payments" title="Все платежи" description="Все платежи">
+		<table name="gagarin_admin_all_payments" api-get="GetTestTable" autoinc="true" readonly="true">
+			<fields>
+				<field name="id">ID платежа</field>
+				<field name="aggregator">Агрегатор (платёжная система)</field>
+				<field name="subject_payment">Что оплачивали</field>
+				<field name="sum">Сумма</field>				
+				<field name="date">Дата</field>				
+				<field name="partner_id">Номер, ID партнёра</field>
+				<field name="payment_doc">Данные платежа от агрегатора</field>				
+			</fields>
+		</table>			
+	</page>	
+		
+	<page url="/admin_archiv_payout" title="Архив выплат" description="Архив выплат партнеру / филиалу">
+		<table name="gagarin_payout_client_done" api-get="GetTestTable" autoinc="true" readonly="true">
+			<fields>
+				<field name="id">№</field>
+				<field name="date">Дата выплаты</field>
+				<field name="sum">Сумма выплаты</field>
+				<field name="payment_doc">Реквизиты</field>				
+			</fields>
+		</table>		
+	</page>	
+
+	<page url="/admin_clients" title="Партнеры" description="Партнеры">
+		<table name="admin_clients" api-get="user/GetClients" autoinc="true" readonly="true">
+			<fields>
+				<field name="id">№</field>
+				<field name="name">Имя</field>
+				<field name="email">Email</field>
+				<field name="city">Город</field>				
+				
+				<field name="country">Страна</field>				
+				<field name="time_registration">Зарегистрирован</field>				
+				<field name="promo">Промокод</field>				
+				<field name="sum">Сумма выплат</field>				
+			</fields>
+		</table>		
+	</page>		
+
+	
+	
+	
+	<config>
+		<var name="favicon" value="img/admin_logo.jpg" />
+		<var name="siteName">Trends</var>
+		<var name="loginHello">Добро пожаловать в панель управления!</var>
+		<var name="siteFullName">siteFullName</var>
+		<var name="uidWorkArea" value="#workArea" />
+		<var name="basePath" value="/crm/trend" />		
+	</config>
+	
+	<users>
+		<user name="Андрей Иванов" login="admin" password="12345" id="1"/>
+	</users>
+	
+	
+</document>

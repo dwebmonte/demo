@@ -64,6 +64,10 @@ function api_request(request, params, callbackFunc) {
 					
 					case 'dtSetData': 
 						loadDataToForm(action.uid, action.data);					
+						
+						
+						//let DT = $( action.uid ).DataTable();
+						//DT.clear().rows.add( action.data ).draw();
 					break;
 					
 					default: console.log("API notice: unknown action do=\""+ action.do  +"\"");
@@ -81,7 +85,7 @@ function api_request(request, params, callbackFunc) {
 			if(res.warnings) 	res.warnings.forEach(function (oNotice) 	{	toastr.warning(oNotice.text, oNotice.title, toastrOpt);	});
 			if(res.notices) 	res.notices.forEach(function (oNotice) 	{	toastr.success(oNotice.text, oNotice.title, toastrOpt);	});
 			
-			
+			if (typeof callbackFunc === "function") callbackFunc( "end", res );
 
 		}
 	});	

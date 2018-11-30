@@ -12,6 +12,95 @@ class API extends coreAPI{
 
 		
 		switch ($do) {
+		
+		
+		
+		
+/*
+	
+		$data_market = iDB::rows("SELECT exchange_code as exchange, name as market FROM market WHERE `enabled`=1 ORDER BY `update_order` DESC, `time`, `id` LIMIT {$count_update}");
+
+		$start = time();
+		foreach ( $data_market as $row) {
+			$row_ticker = $this->get_ticker($row->exchange, $row->market);
+			
+			// Если скрипт выполняется больше положенного, то прерываем его
+			if (!is_null($max_sec_exec) && (time() - $start - 1 >= $max_sec_exec)) {
+				trigger_error( "API Update/Exchange -- Script was stopped. Time limit is over {$max_sec_exec} sec.", E_USER_WARNING);
+				break;
+			};
+		};
+		trigger_error( 'API Update/Exchange -- Time execution: '.round(microtime(true) - $start, 4).' sec.');	
+*/
+
+
+			case stristr($do, "Article/Categories/Join"):
+				$start = time();
+				$max_sec_exec = 60;
+				$limit_article = 1;
+		
+				for ($level = 0; $level <= 2; $level++) {
+					// перебираем статьи
+					$data_article = iDB::rows("SELECT id, `text` FROM article WHERE category_id{$level} IS NULL AND `parsed`=1 AND `text`!='' ORDER BY time_added DESC  LIMIT {$limit_article}");
+					foreach ($data_article as $key_article => $item_article) {
+						
+						
+					
+						// делаем выборку подходящих категорий
+						$query = '
+						INSERT IGNORE INTO article_cat (article_id, `level`, category_id, `count`, `sum`, `avg`)
+						
+						SELECT '. $item_article->id .', '. $level .',  cat_id, COUNT(category_id) `count`, SUM(koef) `sum`, AVG(koef) `avg` FROM 
+						(SELECT A.title as article_title , C.id as cat_id, C.title as category_title, C.id as category_id, MATCH (A.`text`) AGAINST ('.iS::sq($item_article->text) .') koef FROM `cnbc_article` A LEFT JOIN cnbc_article_cat AC ON (AC.article_id=A.id) LEFT JOIN cnbc_category C ON (C.id=AC.category_id)
+						WHERE C.`level`='.$level.'
+						GROUP BY A.id 
+						ORDER BY koef DESC 
+						LIMIT 100) S
+						GROUP BY category_id ORDER BY SUM(koef) DESC LIMIT 3';					
+						
+						iDB::exec($query);
+						
+						$category_id = iDB::value("SELECT category_id FROM article_cat WHERE article_id={$item_article->id} AND `level`={$level} ORDER BY `sum` DESC");
+						if (is_null($category_id)) $category_id = 0;
+						
+						iDB::update("UPDATE article SET `time`=`time`, category_id{$level}={$category_id} WHERE id={$item_article->id}");
+						
+						/*
+						// Если скрипт выполняется больше положенного, то прерываем его
+						if (!is_null($max_sec_exec) && (time() - $start - 1 >= $max_sec_exec)) {
+							trigger_error( "Article/Categories/Join -- Script was stopped. Time limit is over {$max_sec_exec} sec.", E_USER_WARNING);
+							break;
+						};
+						*/
+						
+					};
+				};
+				trigger_error( 'API Update/Exchange -- Time execution: '.round(microtime(true) - $start, 4).' sec.');
+		
+			break;	
+			
+			case stristr($do, "Get/Category/Articles"):
+				$category_id = (int) str_ireplace("cat", "", $paramForm["category_id"]);
+				$level = iDB::value("SELECT `level` FROM cnbc_category WHERE id={$category_id}");
+				
+				$data_articles = iDB::rows("SELECT *, LOWER(SUBSTRING_INDEX(`text`,' ',200)) as text_300w FROM article WHERE category_id{$level} = {$category_id} GROUP BY uid ORDER BY time_added DESC LIMIT 100");
+				$html = "";
+				
+				if (!is_null($data_articles)) {
+					foreach ($data_articles as $key => $item) {
+						$data_url = parse_url( $item->url );
+					
+					
+						$html .= '<h5 style="border-bottom: 1px solid #e6e6e6;padding-bottom: 8px;margin-bottom: 12px;"> <a href="'. $item->url .'" target="_blank" style="display: block;width: 100%;color: black;">
+						'. $item->title. '</a><span style="padding-left: 0px;" class="time">'. $item->time_added. '</span><span style="float: right;font-size: 10px;color: green;">'. str_ireplace("www.", "", $data_url["host"]) .'</span>
+												</h5>';
+				
+					};
+				};
+				
+				$this->jqueryHTML("#panel_articles_by_category", $html);
+			break;
+			
 			case stristr($do, "Recognition/Categories"):
 				$deep_search = $paramForm["deep_search"];
 				$search_word = $paramForm["text"];
@@ -22,8 +111,9 @@ class API extends coreAPI{
 				GROUP BY A.id 
 				ORDER BY koef DESC 
 				LIMIT '. $deep_search .') S
-
 				GROUP BY category_id ORDER BY SUM(koef) DESC';		
+				
+				exit();
 		
 				$data = iDB::rows($query);
 				$this->dtSetData("recognized_categories_cnbc", $data);
@@ -57,12 +147,13 @@ class API extends coreAPI{
 
 				// обычный режим
 				$query = '
-				SELECT A.id, A.title, A.url, IF(A.time_added="0000-00-00 00:00:00", A.`time`, A.time_added) time_added, MATCH (S.`title`, S.`text`) AGAINST ('.iS::sq($search_word) .' ) koef
-				FROM `search` S LEFT JOIN `article` A ON (S.article_id=A.id)
+				SELECT A.id, A.title, A.url, IF(A.time_added="0000-00-00 00:00:00", A.`time`, A.time_added) time_added, MATCH (S.`title`, S.`text_300w`) AGAINST ('.iS::sq($search_word) .' ) koef
+				FROM `search` S LEFT JOIN `article` A ON (S.id=A.id)
 
-				WHERE S.table_id=0 AND MATCH (S.`title`, S.`text`) AGAINST ('.iS::sq($search_word) .'  ) > 0
-				ORDER BY MATCH (S.`title`, S.`text`) AGAINST ('.iS::sq($search_word) .'  ) DESC
-				LIMIT 7';				
+				WHERE MATCH (S.`title`, S.`text_300w`) AGAINST ('.iS::sq($search_word) .'  ) > 0
+				ORDER BY MATCH (S.`title`, S.`text_300w`) AGAINST ('.iS::sq($search_word) .'  ) DESC
+				LIMIT 7';
+			
 			
 				$data_article = iDB::rows($query);				
 
@@ -103,11 +194,11 @@ class API extends coreAPI{
 				
 				// обычный режим с заголовками
 				$query = '
-				SELECT A.id, A.title, A.url, IF(A.time_added="0000-00-00 00:00:00", A.`time`, A.time_added) time_added, MATCH (S.`title`, S.`text`) AGAINST ('.iS::sq($row_search_article->title) .' ) koef
-				FROM `search` S LEFT JOIN `article` A ON (S.article_id=A.id)
+				SELECT A.id, A.title, A.url, IF(A.time_added="0000-00-00 00:00:00", A.`time`, A.time_added) time_added, MATCH (S.`title`, S.`text_300w`) AGAINST ('.iS::sq($row_search_article->title) .' ) koef
+				FROM `search` S LEFT JOIN `article` A ON (S.id=A.id)
 
-				WHERE S.table_id=0 AND MATCH (S.`title`, S.`text`) AGAINST ('.iS::sq($row_search_article->title) .'  ) > 0
-				ORDER BY MATCH (S.`title`, S.`text`) AGAINST ('.iS::sq($row_search_article->title) .'  ) DESC
+				WHERE MATCH (S.`title`, S.`text_300w`) AGAINST ('.iS::sq($row_search_article->title) .'  ) > 0
+				ORDER BY MATCH (S.`title`, S.`text_300w`) AGAINST ('.iS::sq($row_search_article->title) .'  ) DESC
 				LIMIT 7';				
 			
 				$data_article = iDB::rows($query);				
@@ -149,20 +240,20 @@ class API extends coreAPI{
 				// boolean режим
 				/*
 				$query = '
-				SELECT A.id, A.title, A.url, IF(A.time_added="0000-00-00 00:00:00", A.`time`, A.time_added) time_added, MATCH (S.`title`, S.`text`) AGAINST ('.iS::sq($search_word) .' IN BOOLEAN MODE) koef
-				FROM `search` S LEFT JOIN `article` A ON (S.article_id=A.id)
+				SELECT A.id, A.title, A.url, IF(A.time_added="0000-00-00 00:00:00", A.`time`, A.time_added) time_added, MATCH (S.`title`, S.`text_300w`) AGAINST ('.iS::sq($search_word) .' IN BOOLEAN MODE) koef
+				FROM `search` S LEFT JOIN `article` A ON (S.id=A.id)
 
-				WHERE S.table_id=0 AND MATCH (S.`title`, S.`text`) AGAINST ('.iS::sq($search_word) .'  IN BOOLEAN MODE) > 0
-				ORDER BY MATCH (S.`title`, S.`text`) AGAINST ('.iS::sq($search_word) .'  IN BOOLEAN MODE) DESC
+				WHERE MATCH (S.`title`, S.`text_300w`) AGAINST ('.iS::sq($search_word) .'  IN BOOLEAN MODE) > 0
+				ORDER BY MATCH (S.`title`, S.`text_300w`) AGAINST ('.iS::sq($search_word) .'  IN BOOLEAN MODE) DESC
 				LIMIT 5';				
 				*/
 				
 				$query = '
-				SELECT A.id, A.title, A.url, IF(A.time_added="0000-00-00 00:00:00", A.`time`, A.time_added) time_added, MATCH (S.`title`, S.`text`) AGAINST ('.iS::sq($search_word) .' ) koef
-				FROM `search` S LEFT JOIN `article` A ON (S.article_id=A.id)
+				SELECT A.id, A.title, A.url, IF(A.time_added="0000-00-00 00:00:00", A.`time`, A.time_added) time_added, MATCH (S.`title`, S.`text_300w`) AGAINST ('.iS::sq($search_word) .' ) koef
+				FROM `search` S LEFT JOIN `article` A ON (S.id=A.id)
 
-				WHERE S.table_id=0 AND MATCH (S.`title`, S.`text`) AGAINST (SUBSTRING_INDEX('.iS::sq($search_word) .', " ", 100)  ) > 0
-				ORDER BY MATCH (S.`title`, S.`text`) AGAINST (SUBSTRING_INDEX('.iS::sq($search_word) .', " ", 100)  ) DESC
+				WHERE MATCH (S.`title`, S.`text_300w`) AGAINST (SUBSTRING_INDEX('.iS::sq($search_word) .', " ", 100)  ) > 0
+				ORDER BY MATCH (S.`title`, S.`text_300w`) AGAINST (SUBSTRING_INDEX('.iS::sq($search_word) .', " ", 100)  ) DESC
 				LIMIT 7';				
 				
 			
@@ -204,6 +295,9 @@ class API extends coreAPI{
 				
 				$this->output["action"][] = array("do" => "similar", "data" => array("similar" => array_values($data_similar), "similar_title" => array_values($data_similar_title), "similar_bool" => array_values($data_similar_bool) ));
 				//$this->output["action"][] = array("do" => "similar", "data" => array("similar" => $data_similar, "similar_bool" => $data_similar_bool ));
+			
+			
+			
 			break;
 		
 		
@@ -232,7 +326,7 @@ class API extends coreAPI{
 				
 				// Блоки
 				$data_block = array();
-				$data_group_block = iDB::rows("SELECT * FROM block WHERE `url` LIKE ". iS::sq("%{$paramForm["site"]}%") ." GROUP BY name");
+				$data_group_block = iDB::rows("SELECT * FROM block WHERE `url` LIKE ". iS::sq("%{$paramForm["site"]}%") ." GROUP BY `name`");
 				
 				if (is_array($data_group_block )) {
 					foreach ($data_group_block as $item_block) {
@@ -416,9 +510,120 @@ class API extends coreAPI{
 				echo json_encode(array("data" => $data));
 				exit();		
 			break;		
-		
-	
+		 
+		 
+		 
+			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		 
+		 
+			case stristr($do, "Article/Update/FT"):
+				$repeat = isset($paramForm["repeat"]) ? $paramForm["repeat"] : 1;
+				$data_article = iDB::rows("SELECT id, text_300w 
+					FROM `search` WHERE (ft_300w IS NULL OR ft_300w=0) AND text_300w!='' LIMIT {$repeat}");
+				
+				if (is_null($data_article)) trigger_error("All articles were updated by koef FT");
+				else {
+					foreach ($data_article as $row_article) {
+						//var_dump($row_article->id);
+						
+						$query = "
+							SELECT
+							  MATCH(text_300w) AGAINST (". iS::sq($row_article->text_300w) .") ft_300w 
+							FROM `search`
+							WHERE id={$row_article->id}";
+						$row_koef = iDB::row($query);	
+					
+					//var_dump($row_article->text_300, $row_koef->ft_300w);
+					
+						$query = "
+						UPDATE `search` S SET
+							ft_300w = {$row_koef->ft_300w} 
+						WHERE S.id={$row_article->id}";
+						
+						iDB::update( $query );
+					};
+				};
+				
+				if (isset($_REQUEST["show"])) {
+					$count_updated = iDB::value("SELECT COUNT(id) FROM `search` WHERE  !(ft_300w IS NULL OR ft_300w=0) ");
+					$count_last = iDB::value("SELECT COUNT(id) FROM `search` WHERE  (ft_300w IS NULL OR ft_300w=0) AND text_300w!=''");
+					
+					trigger_error("Updated news = {$count_updated}, last news = {$count_last}");				
+				} else {
+					exit();
+				};			
+			break;
 			
+			
+			// Обновление таблицы коеффициентов
+			case stristr($do, "Article/Update/Koef"):
+				$repeat = isset($paramForm["repeat"]) ? $paramForm["repeat"] : 1;
+				$min_percent = 0.2;
+				
+				
+				$data_article = iDB::rows("SELECT id, text_300w, ft_300w 
+					FROM `search` WHERE parsed_koef=0 AND ft_300w !=0 LIMIT {$repeat}");
+					
+				if (is_null($data_article)) trigger_error("All articles were updated by koef FT");
+				else {
+					$data_str_koef = array(
+						//array("koef" => "ft_title", "field" => "title"),	
+						//array("koef" => "ft_50w", "field" => "text_50w"),
+						//array("koef" => "ft_100w", "field" => "text_100w"), 
+						//array("koef" => "ft_150w", "field" => "text_150w"),
+						//array("koef" => "ft_200w", "field" => "text_200w"),
+						//5 => array("koef" => "ft_250w", "field" => "text_250w"),
+						6 => array("koef" => "ft_300w", "field" => "text_300w"),
+						//7 => array("koef" => "ft_400w", "field" => "text_400w"),
+					);
+				
+					// перебираем статьи
+					foreach ($data_article as $row_article) {
+					
+						// перебираем коеффициенты
+						foreach ($data_str_koef as $koef_type => $item_str_koef) {
+							$str_field = $item_str_koef["field"];
+							$str_koef = $item_str_koef["koef"];
+						
+							$query = "
+								INSERT IGNORE INTO `koef` (id_1, id_2, koef, koef_type)
+								SELECT {$row_article->id}, S.id, MATCH (S.`{$str_field}`) AGAINST (". iS::sq($row_article->$str_field) .") / {$row_article->$str_koef} percent, '{$koef_type}' FROM `search` S
+								WHERE S.id != {$row_article->id} AND (MATCH (S.`{$str_field}`) AGAINST (". iS::sq($row_article->$str_field) .")  / {$row_article->$str_koef}) >= {$min_percent}
+							";
+							
+							iDB::exec( $query );
+						};
+						iDB::exec("UPDATE `search` SET parsed_koef=1 WHERE id={$row_article->id}");
+					};
+					
+					
+				};
+		
+		
+				$count_updated = iDB::value("SELECT COUNT(id) FROM `search` WHERE parsed_koef!=0 AND ft_300w !=0");
+				$count_last = iDB::value("SELECT COUNT(id) FROM `search` WHERE parsed_koef=0 AND ft_300w !=0");
+					
+				trigger_error("Updated news = {$count_updated}, last news = {$count_last}");			
+		
+			break;			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			// выход из системы
+			case stristr($do, "User/Logout"):		
+				unset($_SESSION["user"]);
+				$this->output["action"][] = array("do" => "href", "href" => "");
+			break;			
 			
 			
 			case "login":

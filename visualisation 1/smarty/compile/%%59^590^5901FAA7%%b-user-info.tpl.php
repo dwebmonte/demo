@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.28, created on 2018-11-02 05:43:13
+<?php /* Smarty version 2.6.28, created on 2018-11-30 18:24:28
          compiled from admin/b-user-info.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('modifier', 'default', 'admin/b-user-info.tpl', 20, false),)), $this); ?>
@@ -24,7 +24,7 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'default', '
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 							<img src="<?php echo ((is_array($_tmp=@$_SESSION['user']['image'])) ? $this->_run_mod_handler('default', true, $_tmp, (@ASSETS_PATH)."/images/user-4.png") : smarty_modifier_default($_tmp, (@ASSETS_PATH)."/images/user-4.png")); ?>
 " alt="user-image" class="img-circle img-inline userpic-32" width="28" />
-														<span><?php echo ((is_array($_tmp=@$_SESSION['user']['name'])) ? $this->_run_mod_handler('default', true, $_tmp, "Аноним") : smarty_modifier_default($_tmp, "Аноним")); ?>
+														<span><?php echo ((is_array($_tmp=@$_SESSION['user']['name'])) ? $this->_run_mod_handler('default', true, $_tmp, 'Admin') : smarty_modifier_default($_tmp, 'Admin')); ?>
 &nbsp;(ID: <?php echo $_SESSION['user']['id']; ?>
 )&nbsp;<i class="fa-angle-down"></i></span>
 						</a>
@@ -32,10 +32,8 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'default', '
 						<ul class="dropdown-menu user-profile-menu list-unstyled">
 							<li><a href="<?php echo @HTTP_HOST; ?>
 /<?php echo @ADMIN_ROUTE_URL; ?>
-profile"><i class="fa-user"></i>Профиль</a></li>
-							<li class="last"><a href="<?php echo @HTTP_HOST; ?>
-/<?php echo @ADMIN_ROUTE_URL; ?>
-/login?logout=1"><i class="fa-lock"></i>Выйти</a></li>						
+profile"><i class="fa-user"></i>Profile</a></li>
+							<li class="last"><a  api-href="user/logout" href="#"><i class="fa-lock"></i>Exit</a></li>						
 <!--							
 	<li>
 								<a href="#edit-profile">

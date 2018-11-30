@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.28, created on 2018-11-02 05:43:13
+<?php /* Smarty version 2.6.28, created on 2018-11-30 18:24:28
          compiled from admin/b-footer.tpl */ ?>
 <!-- start postfilter file="admin/b-footer.tpl" -->
 <!-- start prefilter file="admin/b-footer.tpl" -->

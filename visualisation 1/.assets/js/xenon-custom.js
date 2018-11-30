@@ -489,7 +489,7 @@ var public_vars = public_vars || {};
 						template: attrDefault($this, 'template', false),
 						showSeconds: attrDefault($this, 'showSeconds', false),
 						defaultTime: attrDefault($this, 'defaultTime', 'current'),
-						showMeridian: attrDefault($this, 'showMeridian', true),
+						showMeridian: attrDefault($this, 'showMeridian', false),
 						minuteStep: attrDefault($this, 'minuteStep', 15),
 						secondStep: attrDefault($this, 'secondStep', 15)
 					},

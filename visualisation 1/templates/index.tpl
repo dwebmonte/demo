@@ -81,7 +81,7 @@
 					<div class="sidebar-user-info-inner">
 						<a href="{$smarty.const.HTTP_HOST}/{$smarty.const.ADMIN_ROUTE_URL}profile" class="user-profile">
 							<img src="{$smarty.const.ASSETS_PATH}/images/user-4.png" class="img-circle img-corona" alt="user-pic" width="60" height="60">
-							<span><strong>{$smarty.session.user.name|default:"Аноним"}</strong>Партнер</span>
+							<span><strong>{$smarty.session.user.name|default:"Admin"}</strong>Admin</span>
 						</a>
 					</div>
 				</section>
@@ -92,10 +92,12 @@
 		</div>
 		<div class="main-content">
 			<nav style="" class="navbar user-info-navbar"  role="navigation"><!-- User Info, Notifications and Menu Bar -->
+				
+				
 				<ul class="user-info-menu left-links list-inline list-unstyled">
 					<li class="hidden-sm hidden-xs"><a href="#" data-toggle="sidebar"><i class="fa-bars"></i></a></li>
 					
-
+<!--
 					<li class="dropdown hover-line language-switcher" style="min-height: 77px;">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 							<img style="width: 20px" src="{$smarty.const.ASSETS_PATH}/images/flags/flag-ru.jpg" alt="Русский">Русский
@@ -107,18 +109,20 @@
 							</li>
 						</ul>
 					</li>					
+					-->
 				</ul>
+				
 				{include file="admin/b-user-info.tpl"}
 			</nav>
 			
 			<div class="page-title">
 				<div class="title-env">
-					<h1 class="title cd_page_title">Главная</h1>
+					<h1 class="title cd_page_title">Dashboard</h1>
 					<p class="description cd_page_description"></p>
 				</div>
 				<div class="breadcrumb-env">
 					<ol class="breadcrumb bc-1" >
-						<li><a href="http://{$smarty.const.DOMAIN}"><i class="fa-home"></i><span class="title">Главная</span></a></li>
+						<li><a href="http://{$smarty.const.DOMAIN}"><i class="fa-home"></i><span class="title">Dashboard</span></a></li>
 
 			<!--
 					<li><a href="ui-panels.html">UI Elements</a></li>
@@ -201,6 +205,8 @@
 	<script src="{$smarty.const.HTTP_HOST}/js/admin_scripts.js?v={$smarty.now}"></script>	
 
 	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>	
 	
 	<!-- (Ajax Modal)-->
 	<div class="modal fade ajax_wrapper" id="modal-bootstrap">

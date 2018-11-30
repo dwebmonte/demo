@@ -1,13 +1,16 @@
 <?php
+	
+	
 mb_internal_encoding("utf-8");	
 
 require_once("config.php");		
 
+
 // ~~~~~~~~~~~~~~~~~~~~~~~		Технические константы
-define("HTTP_HOST", "http://" . DOMAIN);
+define("HTTP_HOST", SCHEME . "://" . DOMAIN);
 if (ADMIN_ROUTE_URL != "") define("HTTP_HOST_ADMIN", HTTP_HOST . '/' . ADMIN_ROUTE_URL); else define("HTTP_HOST_ADMIN", HTTP_HOST);
 define("HTTP_HOST_URLENCODE", urlencode(HTTP_HOST . '/'));
-define("CURRENT_URL", 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+define("CURRENT_URL", SCHEME . '://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
 
 $self_fn = str_ireplace('\\','/',__FILE__);
 define("ROOT", str_ireplace( basename($self_fn ), "", $self_fn ));
@@ -79,6 +82,7 @@ if (!is_null(iUser::user_id())) {
 	
 	// Поиск страницы
 	$CDP = json_decode(file_get_contents("json/CDP.json"));
+	
 	foreach ($CDP->page as $url => $oPage) {
 		if ($url != '/' . PAGE_URL) continue;
 		
@@ -100,6 +104,13 @@ $SM->assign("template_index", $O->smarty_template_index);
 $SM->assign("template_page", $O->smarty_template_page);
 
 
+/*
+if ($_SERVER["REMOTE_ADDR"] != "46.118.126.167") {
+echo $SM->display(ROOT . "templates/under_reconstruction.tpl");
+exit();
+};
+*/
+
 
 define("IS_ADMIN", true);
 $O->trigger = "trigger_admin.php";
@@ -110,7 +121,20 @@ $API = new API();
 $SM->assign("API", $API);
 
 
+// Direct call by API
+if (stripos($_REQUEST["route_url"], "api/") === 0) {
+	header('Content-Type: application/json');
+	
+	$_REQUEST["params"] = $_REQUEST;
+	//$_REQUEST["c"] = "API";	
+	//$_REQUEST["e"] = "onRequest";
+	$_REQUEST["do"] = str_ireplace("api/", "", $_REQUEST["route_url"]);
 
+	$obj = new API();
+	$obj->onRequest( );	
+	
+	exit();
+};
 
 // echo "<pre>";		var_dump($_REQUEST); var_dump($_FILES);		echo "</pre>";				exit();
 $data = array("c" => "iComDataTable", "e" => "onAddDataTable", "id" => 1, "uid" => "admin");

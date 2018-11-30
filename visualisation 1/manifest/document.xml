@@ -4,7 +4,9 @@
 	<leftMenu>
 
 		
-		<item url="/" icon="fa-newspaper-o">Articles</item>
+		<item url="/" icon="fa-globe">Trends</item>
+		<item url="/articles-by-category" icon="fa-sitemap">News by categories</item>
+		<item url="/articles" icon="fa-newspaper-o">Articles</item>
 		<item url="/logs" icon="fa-tasks">Logs</item>
 		<item url="/proxy" icon="fa-cloud-download">Proxy</item>
 		<item url="/testing" icon="fa-cubes">Categories</item>
@@ -14,6 +16,15 @@
 		
 	</leftMenu>
 
+	
+	
+	
+	<page url="/" title="Trends" description="Current trends" template-page="trends.tpl">	</page>	
+	<page url="/articles-by-category" title="News by categories" description="News by categories" template-page="article_by_category.tpl">	</page>	
+	
+	
+	
+	<item url="/articles-cat" icon="fa-sitemap">News by categories</item>
 	
 	<page url="/testing-related" title="Related articles" description="" template-page="admin/testing-related.tpl">
 		<table name="article"  parent="#user_article_wrapper" read-only="true" autoinc="true">
@@ -61,7 +72,7 @@
 	
 	</page>
 	
-	<page url="/" title="Articles" description="Спарсенные статьи и их характеристики" template-page="admin/articles.tpl">
+	<page url="/articles" title="Articles" description="Спарсенные статьи и их характеристики" template-page="admin/articles.tpl">
 		
 		
 		<table name="article"  parent="#tab_benzinga" read-only="true" autoinc="true">
@@ -225,7 +236,7 @@
 		<var name="loginHello">Добро пожаловать в панель управления!</var>
 		<var name="siteFullName">siteFullName</var>
 		<var name="uidWorkArea" value="#workArea" />
-		<var name="basePath" value="/crm/trend" />		
+		<var name="basePath" value="/crm/news_aggregator" />
 	</config>
 	
 	<users>

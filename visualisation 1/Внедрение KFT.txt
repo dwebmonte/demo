@@ -1,0 +1,27 @@
+UPDATE article SET uid=MD5(CONCAT(SUBSTRING_INDEX(url, '/', 3), '-', title))
+
+
+-- Пополнение новыми статьями
+
+INSERT IGNORE INTO `search` (id, title, md5, text_50w, text_100w, text_150w, text_200w, text_250w, text_300w)
+SELECT id, LOWER(title), md5,
+LOWER(SUBSTRING_INDEX(`text`,' ',50)),
+LOWER(SUBSTRING_INDEX(`text`,' ',100)),
+LOWER(SUBSTRING_INDEX(`text`,' ',150)),
+LOWER(SUBSTRING_INDEX(`text`,' ',200)),
+LOWER(SUBSTRING_INDEX(`text`,' ',250)),
+LOWER(SUBSTRING_INDEX(`text`,' ',300))
+ FROM article WHERE parsed=1
+ 
+UPDATE `search` S, `article` A SET S.time_added=A.time_added WHERE S.md5=A.md5 AND S.site_id=1;
+UPDATE `koef` K, `search` S SET time_from=time_added, time_to=time_added WHERE K.id_1=S.id;
+UPDATE `koef` K, `search` S SET time_from=LEAST(time_from, time_added), time_to=GREATEST(time_to, time_added) WHERE K.id_2=S.id; 
+ 
+ -- Обновление коцеффициентов
+/api/Article/Update/FT?show=1&repeat=5000 
+
+-- Занести в таблицу коеффициентов
+/api/Article/Update/Koef?repeat=1000
+
+-- Удалить дубликаты
+DELETE FROM koef WHERE id_1 IN (SELECT id FROM article WHERE url LIKE "%?il=0") OR id_2 IN (SELECT id FROM article WHERE url LIKE "%?il=0")

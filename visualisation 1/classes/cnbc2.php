@@ -29,7 +29,7 @@ class cnbc2 extends iParser {
 			
 			foreach ($J->find("#pipeline_secondary", 0)->find("li") as $li) {
 				if( !isset( $li->find(".headline a", 0)->href ) ) continue;
-			
+				
 				$title = trim($li->find(".headline a", 0)->plaintext);
 				$url = $li->find(".headline a", 0)->href;
 
@@ -333,7 +333,7 @@ class cnbc2 extends iParser {
 	
 	function parse_articles_from_category( $category_id = null ) {
 		if (is_null($category_id)) {
-			$row_cat = iDB::row("SELECT * FROM cnbc_category WHERE max_page>0 AND `page`!=max_page ORDER BY id");
+			$row_cat = iDB::row("SELECT * FROM cnbc_category WHERE max_page>0 AND `page` < max_page ORDER BY id");
 		} else {
 			$row_cat = iDB::row("SELECT * FROM cnbc_category WHERE id={$category_id}");
 		};
@@ -382,7 +382,7 @@ class cnbc2 extends iParser {
 	// парсинг статей
 	function parse_article($max_count = 1) {
 				
-		$data_article = iDB::rows("SELECT id, url, title FROM cnbc_article WHERE parsed=0 ORDER BY id LIMIT {$max_count}");
+		$data_article = iDB::rows("SELECT id, url, title FROM cnbc_article WHERE parsed=0 ORDER BY RAND() LIMIT {$max_count}");
 		
 		if (is_array($data_article))
 		foreach ($data_article as $oArticle) {
@@ -401,7 +401,10 @@ class cnbc2 extends iParser {
 				if ($J->find(".embed-container", 0)) foreach ($J->find(".embed-container") as $item) $item->outertext = "";
 				
 				// время
-				if ($el = $J->find(".datestamp", 0)) $json["published"] = $el->datetime;
+				if ($el = $J->find(".datestamp", 0)) {
+					$json["published"] = $el->datetime;
+					if (strpos($json["published"], 'T') !== false) $json["published"] = date("Y-m-d H:i:s", strtotime('2018-11-12T19:00:53-0500'));
+				};
 				
 				// текст
 				if (isset($J->find("#article_body", 0)->innertext)) {

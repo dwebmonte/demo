@@ -23,14 +23,32 @@ date_default_timezone_set('Europe/Kiev');
 
 $server_addr = isset($_SERVER["SERVER_ADDR"]) ? $_SERVER["SERVER_ADDR"] : $_SERVER["LOCAL_ADDR"];
 
-	define('DB_HOST', 'LOCALHOST');
+if ($server_addr == "127.0.0.1") {
+	define('DB_HOST', 'localhost');
 	define('DB_USER', 'root');
 	define('DB_PASSWORD', '');
-	define('DB_NAME', 'trend1');
+	define('DB_NAME', 'news_aggregator');
 
-	define("DOMAIN", "aleney.com/crm/trend");
-	define("ASSETS_PATH", "http://aleney.com/crm/.assets");
-	define("CORE_PATH", "../.core/");
+	define("DOMAIN", "aleney.com/crm/news_aggregator");
+	define("SCHEME", "http");
+	
+	define("ASSETS_PATH", "http://aleney.com/crm/news_aggregator/.assets");
+} else {
+	define('DB_HOST', 'localhost');
+	define('DB_USER', 'root');
+	define('DB_PASSWORD', '_Tarakan1');
+	define('DB_NAME', 'news_aggregator');
+
+	define("DOMAIN", "aggnews.tickeron.com");
+	define("SCHEME", "https");	
+	
+	define("ASSETS_PATH", "/.assets");
+	
+};
+	
+	
+	define("CORE_PATH", ".core/");
+	
 	
 	define("DEVELOPE", true);		
 	define("IS_LOCALHOST", true);

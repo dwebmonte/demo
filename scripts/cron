@@ -1,0 +1,8 @@
+*/5 * * * * wget -O- http://localhost:8080/parser_benzinga.php
+*/5 * * * * wget -O- http://localhost:8080/parser_benzinga_articles.php
+*/5 * * * * wget -O- http://localhost:8080/parser_cnbc.php
+*/5 * * * * wget -O- http://localhost:8080/parser_cnbc_articles.php
+*/5 * * * * wget -O- http://localhost:8080/parser_marketwatch.php
+*/5 * * * * wget -O- http://localhost:8080/parser_reuters.php
+*/5 * * * * wget -O- http://localhost:8080/parser_zacks.php
+*/5 * * * * wget -O- http://localhost:8080/parser_marketrealist.php

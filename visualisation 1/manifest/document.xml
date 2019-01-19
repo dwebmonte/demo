@@ -4,7 +4,11 @@
 	<leftMenu>
 
 		
-		<item url="/" icon="fa-globe">Trends</item>
+		
+		
+		
+		<item url="/" icon="fa-cogs">System</item>
+		<item url="/trends" icon="fa-globe">Trends</item>
 		<item url="/articles-by-category" icon="fa-sitemap">News by categories</item>
 		<item url="/articles" icon="fa-newspaper-o">Articles</item>
 		<item url="/logs" icon="fa-tasks">Logs</item>
@@ -17,11 +21,17 @@
 	</leftMenu>
 
 	
+
 	
+	<page url="/" title="Cron status" description="Current trends" template-page="cron_status.tpl">	</page>	
 	
-	<page url="/" title="Trends" description="Current trends" template-page="trends.tpl">	</page>	
-	<page url="/articles-by-category" title="News by categories" description="News by categories" template-page="article_by_category.tpl">	</page>	
+	<page url="/trends/cnbc" title="Trends 1" description="Current trends" template-page="trends.tpl">	</page>	
+	<page url="/trends/marketrealist" title="Trends 1" description="Current trends" template-page="trends_marketrealist.tpl">	</page>	
+
 	
+	<page url="/articles-by-category/cnbc" title="News by categories 1" description="News by categories" template-page="article_by_category.tpl">	</page>	
+	<page url="/articles-by-category/marketrealist" title="News by categories 1" description="News by categories" template-page="article_by_category_marketrealist.tpl">	</page>	
+	<page url="/articles-by-category/marketrealist1" title="News by categories 1" description="News by categories" template-page="article_by_category_marketrealist1.tpl">	</page>	
 	
 	
 	<item url="/articles-cat" icon="fa-sitemap">News by categories</item>
@@ -61,7 +71,7 @@
 				<field name="avg" width="10%">Average</field>
 				<field name="std" width="10%">STD</field>
 			</fields>
-		</table>		
+			</table>		
 		
 		
 		
@@ -236,7 +246,7 @@
 		<var name="loginHello">Добро пожаловать в панель управления!</var>
 		<var name="siteFullName">siteFullName</var>
 		<var name="uidWorkArea" value="#workArea" />
-		<var name="basePath" value="/crm/news_aggregator" />
+		<var name="basePath" value="/aggnews.tickeron.com/visualisation 1" />
 	</config>
 	
 	<users>

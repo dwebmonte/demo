@@ -21,18 +21,19 @@ session_start();
 date_default_timezone_set('Europe/Kiev');
 
 
-$server_addr = isset($_SERVER["SERVER_ADDR"]) ? $_SERVER["SERVER_ADDR"] : $_SERVER["LOCAL_ADDR"];
+//$server_addr = isset($_SERVER["HTTP_HOST"]) ? $_SERVER["SERVER_ADDR"] : $_SERVER["LOCAL_ADDR"];
 
-if ($server_addr == "127.0.0.1") {
+if ($_SERVER["HTTP_HOST"] == "aleney.com") {
 	define('DB_HOST', 'localhost');
 	define('DB_USER', 'root');
 	define('DB_PASSWORD', '');
 	define('DB_NAME', 'news_aggregator');
 
-	define("DOMAIN", "aleney.com/crm/news_aggregator");
+	define("DOMAIN", "aleney.com/aggnews.tickeron.com/visualisation 1");
 	define("SCHEME", "http");
 	
-	define("ASSETS_PATH", "http://aleney.com/crm/news_aggregator/.assets");
+	//define("ASSETS_PATH", "http://aleney.com/aggnews.tickeron.com/visualisation 1/.assets");
+	define("ASSETS_PATH", "http://aleney.com/crm/.assets");
 } else {
 	define('DB_HOST', 'localhost');
 	define('DB_USER', 'root');

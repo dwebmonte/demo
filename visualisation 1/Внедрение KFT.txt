@@ -1,6 +1,3 @@
-UPDATE article SET uid=MD5(CONCAT(SUBSTRING_INDEX(url, '/', 3), '-', title))
-
-
 -- Пополнение новыми статьями
 
 INSERT IGNORE INTO `search` (id, title, md5, text_50w, text_100w, text_150w, text_200w, text_250w, text_300w)

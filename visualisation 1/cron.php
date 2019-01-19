@@ -4,6 +4,7 @@ mb_internal_encoding("utf-8");
 require_once("config.php");		
 
 
+
 // ~~~~~~~~~~~~~~~~~~~~~~~		Технические константы
 define("HTTP_HOST", SCHEME . "://" . DOMAIN);
 if (ADMIN_ROUTE_URL != "") define("HTTP_HOST_ADMIN", HTTP_HOST . '/' . ADMIN_ROUTE_URL); else define("HTTP_HOST_ADMIN", HTTP_HOST);
@@ -73,6 +74,14 @@ define("PAGE_URL", $page_url);
 
 session_write_close();
 
+iCronWatch::param("cron koef", "exec", 1);
+
+
+// Очистка старых данных
+$iObserver = new iObserver();
+$iObserver->clean_old_data();
+
+
 
 
 
@@ -81,12 +90,18 @@ iDB::exec("INSERT IGNORE INTO `search` (id, title, `text_300w`, `md5`) SELECT id
 iDB::exec("UPDATE article SET uid=MD5(CONCAT(SUBSTRING_INDEX(url, '/', 3), '-', title))");
 
 
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~			Добавляем статьи в коеффициенты
+iDB::exec("UPDATE `search` S, `article` A SET S.time_added=A.time_added WHERE S.md5=A.md5 AND S.site_id=1");
+iDB::exec("UPDATE `koef` K, `search` S SET time_from=time_added, time_to=time_added WHERE K.id_1=S.id");
+iDB::exec("UPDATE `koef` K, `search` S SET time_from=LEAST(time_from, time_added), time_to=GREATEST(time_to, time_added) WHERE K.id_2=S.id");
 
+$API->onRequest("Article/Update/FT", null, "local");
+$API->onRequest("Article/Update/Koef", null, "local");
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~			Распознаем категории в статьях
 $start = time();
 $max_sec_exec = 60;
-$limit_article = 2;
+$limit_article = 1;
 
 for ($level = 0; $level <= 2; $level++) {
 	// перебираем статьи
@@ -143,5 +158,6 @@ trigger_error( 'API Update/Exchange -- Time execution: '.round(microtime(true) -
 // https://aggnews.tickeron.com/api/Article/Update/FT?show=1&repeat=5000
 // https://aggnews.tickeron.com/api/Article/Update/Koef?show=1&repeat=5000
 
+iCronWatch::param("cron koef", "finish", 1);
 
 exit();

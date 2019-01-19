@@ -23,18 +23,29 @@ if (!file_exists(TEMP_DIR)) mkdir(TEMP_DIR);
 
 /* Константы по работе с БД */
 
+if ($_SERVER["HTTP_HOST"] == "aleney.com") {
+	define("IS_LOCAL_SERVER", true);
+	define('DB_HOST', 'localhost');
+	define('DB_USER', 'root');
+	define('DB_PASSWORD', '');
+	define('DB_NAME', 'news_aggregator');
 
-define("IS_LOCAL_SERVER", true);
-define('DB_HOST', 'LOCALHOST');
-define('DB_USER', 'root');
-define('DB_PASSWORD', '');
-define('DB_NAME', 'trend1');
+	ini_set('display_errors', E_ALL & ~E_DEPRECATED); 
+	error_reporting(E_ALL & ~E_DEPRECATED);
+		
+	define('IS_LOCALHOST', true);		
+} else {
+	define("IS_LOCAL_SERVER", true);
+	define('DB_HOST', 'localhost');
+	define('DB_USER', 'root');
+	define('DB_PASSWORD', '_Tarakan1');
+	define('DB_NAME', 'news_aggregator');
 
-ini_set('display_errors', E_ALL & ~E_DEPRECATED); 
-error_reporting(E_ALL & ~E_DEPRECATED);
-	
-define('IS_LOCALHOST', true);		
-
+	ini_set('display_errors', E_ALL & ~E_DEPRECATED); 
+	error_reporting(E_ALL & ~E_DEPRECATED);
+		
+	define('IS_LOCALHOST', true);		
+};
 
 
 

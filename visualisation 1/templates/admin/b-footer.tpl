@@ -9,7 +9,7 @@
 					<!-- Add your copyright text here -->
 					<div class="footer-text">
 						&copy; 2018
-						<strong>Все права защищены</strong> 
+						<strong>All rights reserved</strong> 
 					<!-- theme by <a href="http://laborator.co" target="_blank">Laborator</a> - <a href="http://themeforest.net/item/xenon-bootstrap-admin-theme/9059661?ref=Laborator" target="_blank">Purchase for only <strong>23$</strong></a> -->
 					</div>
 					

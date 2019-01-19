@@ -2,11 +2,18 @@
 
 require_once("classes/constants.php");
 require_once("classes/simple_html_dom.php");
+iCronWatch::param("cnbc.com list", "exec", 1);
+
+
+
 
 
 
 $cnbc = new cnbc();
 $cnbc->parse_main();
+
+
+
 
 $cnbc->parse_category( "https://www.cnbc.com/finance/" ); 
 $cnbc->parse_category( "https://www.cnbc.com/economy/" );

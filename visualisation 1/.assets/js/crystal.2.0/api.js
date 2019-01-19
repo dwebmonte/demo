@@ -127,6 +127,14 @@ $(document).ready(function()  {
 		return false;
 	});
 		
+		
+	$(document).on("click", "[api-href]", function(e) {
+		let $this = $(this);
+		
+		api_request($this.attr("api-href"), {  });		
+
+		return false;
+	});		
 	
 	API.sendRequestOnLoad();	
 });		

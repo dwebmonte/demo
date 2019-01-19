@@ -79,6 +79,60 @@ class API extends coreAPI{
 		
 			break;	
 			
+			// Список распознанных статей по категориям для Marketrealist
+			case stristr($do, "Get/Category/Articles/Marketrealist1"):
+				$category_uid = iS::sq(str_ireplace("cat", "", $paramForm["category_id"]));
+				
+				$data_articles = iDB::rows("
+				SELECT A.*, LOWER(SUBSTRING_INDEX(`text`,' ',200)) as text_300w FROM article A
+				LEFT JOIN marketrealist_article_cat MAC ON (A.marketrealist_article_close_id=MAC.article_id)
+				LEFT JOIN marketrealist_category MC ON (MAC.category_id=MC.id)
+				WHERE MC.uid={$category_uid}				
+				ORDER BY time_added DESC LIMIT 100");
+				$html = "";
+				
+				if (!is_null($data_articles)) {
+					foreach ($data_articles as $key => $item) {
+						$data_url = parse_url( $item->url );
+					
+					
+						$html .= '<h5 style="border-bottom: 1px solid #e6e6e6;padding-bottom: 8px;margin-bottom: 12px;"> <a href="'. $item->url .'" target="_blank" style="display: block;width: 100%;color: black;">
+						'. $item->title. '</a><span style="padding-left: 0px;" class="time">'. $item->time_added. '</span><span style="float: right;font-size: 10px;color: green;">'. str_ireplace("www.", "", $data_url["host"]) .'</span>
+												</h5>';
+				
+					};
+				};
+				
+				$this->jqueryHTML("#panel_articles_by_category", $html);
+			break;			
+			
+			
+			
+			// Список статей из базы знаний по категориям для Marketrealist			
+			case stristr($do, "Get/Category/Articles/Marketrealist"):
+				$category_uid = iS::sq(str_ireplace("cat", "", $paramForm["category_id"]));
+				
+				$data_articles = iDB::rows("
+					SELECT MA.published, MA.title, MAC.`level`, LOWER(SUBSTRING_INDEX(`text`,' ',200)) as text_300w FROM marketrealist_article MA LEFT JOIN marketrealist_article_cat MAC ON (MA.id=MAC.article_id) LEFT JOIN marketrealist_category MC ON (MAC.category_id=MC.id)
+					WHERE MC.uid={$category_uid} LIMIT 100");
+				
+				$html = "";
+				
+				if (!is_null($data_articles)) {
+					foreach ($data_articles as $key => $item) {		
+					
+						$html .= '<h5 style="border-bottom: 1px solid #e6e6e6;padding-bottom: 8px;margin-bottom: 12px;"> <a href="#" style="display: block;width: 100%;color: black;">
+						'. $item->title. '</a><span style="padding-left: 0px;" class="time">'. $item->published. '</span><span style="float: right;font-size: 10px;color: green;">'. $item->level .'</span>
+												</h5>';
+				
+					};
+				};
+				
+				$this->jqueryHTML("#panel_articles_by_category", $html);
+			break;			
+			
+			
+			// Список статей из базы знаний по категориям для cnbc.com			
 			case stristr($do, "Get/Category/Articles"):
 				$category_id = (int) str_ireplace("cat", "", $paramForm["category_id"]);
 				$level = iDB::value("SELECT `level` FROM cnbc_category WHERE id={$category_id}");
@@ -100,6 +154,9 @@ class API extends coreAPI{
 				
 				$this->jqueryHTML("#panel_articles_by_category", $html);
 			break;
+			
+			
+			
 			
 			case stristr($do, "Recognition/Categories"):
 				$deep_search = $paramForm["deep_search"];
@@ -345,7 +402,7 @@ class API extends coreAPI{
 				};
 				
 				
-				$data_article = iDB::rows("SELECT id, title, url, md5, `text`, sub_title, `category`, key_point, inner_url, parsed, str_time, related, tags, tags2, time_added, response, UNIX_TIMESTAMP(`time`) as `time` FROM article  WHERE parsed=1 AND url LIKE ". iS::sq("%{$paramForm["site"]}%") ." ORDER BY `id` DESC LIMIT 1000");
+				$data_article = iDB::rows("SELECT id, marketrealist_article_close_id, title, url, md5, `text`, sub_title, `category`, key_point, inner_url, parsed, str_time, related, tags, tags2, time_added, response, UNIX_TIMESTAMP(`time`) as `time` FROM article  WHERE parsed=1 AND url LIKE ". iS::sq("%{$paramForm["site"]}%") ." ORDER BY `id` DESC LIMIT 1000");
 				if (!is_null($data_article)) {
 					foreach ($data_article as $key => $item) {
 						$item->url = str_replace(
@@ -366,12 +423,20 @@ class API extends coreAPI{
 						
 						
 						
+						
+						
+						
 						$item_data = array(
 							"id" => $item->id,
 							"title" => array("text" => $item->title, "url" => $item->url),
 						);
 						//$item_data["time"] =  (!empty($item->str_time)) ? $item->str_time : date("H:i:s, d.m", $item->time);
 						$item_data["time"] =  date("H:i:s, d.m", $item->time);
+						
+						
+						//$item_data["categories"] = iDB::rows("SELECT C.title FROM marketrealist_article_cat AC LEFT JOIN marketrealist_category C ON (C.id=AC.category_id) WHERE AC.article_id={$item->marketrealist_article_close_id} ORDER BY AC.`level`");
+						//if (!is_null($item_data["categories"])) $item_data["categories"] = implode($item_data["categories"], " / ");
+						
 						
 						$item_data["detail"] = "<dl>";
 						
@@ -517,7 +582,7 @@ class API extends coreAPI{
 		 
 		 
 			case stristr($do, "Article/Update/FT"):
-				$repeat = isset($paramForm["repeat"]) ? $paramForm["repeat"] : 1;
+				$repeat = isset($paramForm["repeat"]) ? $paramForm["repeat"] : 60;
 				$data_article = iDB::rows("SELECT id, text_300w 
 					FROM `search` WHERE (ft_300w IS NULL OR ft_300w=0) AND text_300w!='' LIMIT {$repeat}");
 				
@@ -544,20 +609,20 @@ class API extends coreAPI{
 					};
 				};
 				
-				if (isset($_REQUEST["show"])) {
+				if (isset($_REQUEST["show"]) && !is_null($data_article)) {
 					$count_updated = iDB::value("SELECT COUNT(id) FROM `search` WHERE  !(ft_300w IS NULL OR ft_300w=0) ");
 					$count_last = iDB::value("SELECT COUNT(id) FROM `search` WHERE  (ft_300w IS NULL OR ft_300w=0) AND text_300w!=''");
 					
-					trigger_error("Updated news = {$count_updated}, last news = {$count_last}");				
+					trigger_error("API Article/Update/FT -- Updated news = {$count_updated}, last news = {$count_last}");			
 				} else {
-					exit();
+					//exit();
 				};			
 			break;
 			
 			
 			// Обновление таблицы коеффициентов
 			case stristr($do, "Article/Update/Koef"):
-				$repeat = isset($paramForm["repeat"]) ? $paramForm["repeat"] : 1;
+				$repeat = isset($paramForm["repeat"]) ? $paramForm["repeat"] : 60;
 				$min_percent = 0.2;
 				
 				
@@ -603,7 +668,7 @@ class API extends coreAPI{
 				$count_updated = iDB::value("SELECT COUNT(id) FROM `search` WHERE parsed_koef!=0 AND ft_300w !=0");
 				$count_last = iDB::value("SELECT COUNT(id) FROM `search` WHERE parsed_koef=0 AND ft_300w !=0");
 					
-				trigger_error("Updated news = {$count_updated}, last news = {$count_last}");			
+				trigger_error("API Article/Update/Koef -- Updated news = {$count_updated}, last news = {$count_last}");			
 		
 			break;			
 			
@@ -616,7 +681,40 @@ class API extends coreAPI{
 			
 			
 			
+			case stristr($do, "article/at_work"):		
+				if ($this->loginned()) {
 			
+			
+					if (isset($paramForm["article_id"])) {
+						$article_id = iS::n( $paramForm["article_id"] );
+						
+						$user_id_at_work = iDB::value("SELECT user_id_at_work FROM article WHERE id={$article_id}");
+						
+						// Если статья не в работе, то стартуем ее
+						if (is_null($user_id_at_work)) {
+							iDB::update("UPDATE article SET `time`=`time`, user_id_at_work={$_SESSION["user"]["id"]} WHERE id={$article_id}");
+							iDB::insertSQL("article_work_stat", array("article_id" => $article_id, "user_id" => $_SESSION["user"]["id"], "state" => 1, "time" => gmdate("Y-m-d H:i:s"), "ip" => $_SERVER["REMOTE_ADDR"]));
+							
+							trigger_error("You started work on the article!");
+							$this->output["action"][] = array("do" => "state", "res" => true, "article_id" => $article_id);
+						// Если статья в работе другим пользователем
+						} elseif ($user_id_at_work != $_SESSION["user"]["id"]) {
+							trigger_error("You cannot start working on this article. Another writer is already working on it!", E_USER_WARNING);
+							
+						// Если статья в работе, то завершаем ее
+						} else {
+							iDB::update("UPDATE article SET `time`=`time`, user_id_at_work=NULL WHERE id={$article_id}");
+							iDB::insertSQL("article_work_stat", array("article_id" => $article_id, "user_id" => $_SESSION["user"]["id"], "state" => 0, "time" => gmdate("Y-m-d H:i:s"), "ip" => $_SERVER["REMOTE_ADDR"]));
+							
+							trigger_error("You have completed the article!");
+							$this->output["action"][] = array("do" => "state", "res" => false, "article_id" => $article_id);
+						};
+
+						
+						
+					} else trigger_error("article_id is not defined", E_USER_ERROR);
+				} else trigger_error("Access denied -- You must login!", E_USER_ERROR);
+			break;			
 			
 			
 			// выход из системы
@@ -625,14 +723,16 @@ class API extends coreAPI{
 				$this->output["action"][] = array("do" => "href", "href" => "");
 			break;			
 			
-			
+			// вход в систему
 			case "login":
-				$_SESSION["user"]["id"] = 1;
-				$_SESSION["user"]["name"] = "Аноним";
-				$_SESSION["user"]["email"] = "cron@aleney.net";
-				
-				$this->output["action"][] = array("do" => "href", "href" => "");
-
+				$row_user = iDB::row("SELECT * FROM `user` WHERE `email`=". iS::sq($paramForm["login"]) ." AND `password`=".  iS::sq($paramForm["password"]));
+				if (is_null($row_user)) {
+					$row_user = iDB::row("SELECT * FROM `user` WHERE `email`=". iS::sq($paramForm["login"]));
+					if (is_null($row_user)) trigger_error("Login failed - There is no user with this email", E_USER_ERROR); else trigger_error("Login failed - You entered the wrong password", E_USER_ERROR);	
+				} else {
+					$_SESSION["user"] = (array) $row_user;
+					$this->output["action"][] = array("do" => "href", "href" => "");
+				};
 			break;
 
 			

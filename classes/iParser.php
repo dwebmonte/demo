@@ -115,7 +115,7 @@ class iParser {
 		// без прокси	
 		} else {
 			if ($info["http_code"] == 200) {
-				file_put_contents($file_url, $text);
+				if ($this->cache) file_put_contents($file_url, $text);
 				
 				if ($this->log) {
 				

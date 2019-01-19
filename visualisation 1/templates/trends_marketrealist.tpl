@@ -1,6 +1,6 @@
 <div class="row">
 	<form role="form" method="POST" action="" id="awerer">
-				
+			 	
 		<div class="form-group  col-sm-4">
 			<label>Date:</label>
 
@@ -178,7 +178,7 @@ $(document).ready(function()  {
 						{$item.article->title}
 						</a>
 					</h4>
-					<div class="label label-success label_category">{$item.article->category0}&nbsp;/&nbsp;{$item.article->category1}&nbsp;/&nbsp;{$item.article->category2}</div>
+					<div class="label label-success label_category">{$item.article->categories}</div>
 					
 					
 				</div>
@@ -190,25 +190,19 @@ $(document).ready(function()  {
 					<h5> 
 					
 							<i class="fa-comment popover-secondary copy_article" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="{$item.article->text_300w}" data-original-title="{$item.article->title}"></i>
-							
-							
-							
+
 							{if is_null($item.article->user_id_at_work)}
 								<a href="#" data-article-id="{$item.article->id}" api-href="article/at_work" api-param='"article_id":"{$item.article->id}"' {literal} api-handler='if (state == "action" && data.do == "state") { console.log(data.res); let $i = $(".in_work[data-article-id="+ data.article_id +"] > i"); if (!data.res) $i.removeClass("fa-bell").addClass("fa-bell-o"); else $i.removeClass("fa-bell-o").addClass("fa-bell"); }' {/literal} class="in_work"><i class="fa-bell-o"></i></a>
 							{elseif $item.article->user_id_at_work == $smarty.session.user.id}
 								<a href="#" data-article-id="{$item.article->id}" api-href="article/at_work" api-param='"article_id":"{$item.article->id}"' {literal} api-handler='if (state == "action" && data.do == "state") { console.log(data.res); let $i = $(".in_work[data-article-id="+ data.article_id +"] > i"); if (!data.res) $i.removeClass("fa-bell").addClass("fa-bell-o"); else $i.removeClass("fa-bell-o").addClass("fa-bell"); }' {/literal} class="in_work"><i class="fa-bell"></i></a>
 							{else}
 								<i class="fa-bell-slash out_work"></i>
-							{/if}
-							
-
+							{/if}							
 							
 							
 							<a class="" href="{$item.article->url}" target="_blank">{$item.article->title}</a>
 							<span class="time">{$item.article->time_added}</span>
-							<span class="label label-success label_category_litte">
-								{$item.article->category0}&nbsp;/&nbsp;{$item.article->category1}&nbsp;/&nbsp;{$item.article->category2}
-							</span>
+							<span class="label label-success label_category_litte">{$item.article->categories}</span>
 							
 							{*
 							<a class="fa fa-external-link" href="{$item.article->url}" target="_blank">

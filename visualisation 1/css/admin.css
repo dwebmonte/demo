@@ -127,3 +127,23 @@ dd {
 }
 
 
+
+/* иконки в трендах */
+
+i.out_work {
+	color: maroon;
+}
+
+.in_work i {
+	color: #00008a;
+}
+
+
+/* переносим текст если длинный в дереве категорий */
+
+.jstree-default .jstree-anchor {
+	line-height: 24px;
+	height: auto !important;
+	white-space: normal !important;
+	padding-right: 24px;
+}

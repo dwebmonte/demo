@@ -55,14 +55,6 @@ class coreAPI {
 
 		switch ($do) {
 		
-		
-			// выход из системы
-			case stristr($do, "User/Logout"):		
-				unset($_SESSION["user"]);
-				$this->output["action"][] = array("do" => "href", "href" => "");
-			break;		
-		
-		
 			// устаревшее убрать
 			case stristr($do, "SetTable"):
 				if (isset($_SESSION["user"])) {
@@ -294,12 +286,6 @@ class coreAPI {
 		$this->output["action"][] = array("do" => '$uid.func', "uid" => $uid, "value" => $value, "func" => "val");
 	}
 
-	function jqueryDataValue($data) {	
-		foreach ($data as $key => $value) {
-			$this->output["action"][] = array("do" => '$uid.func', "uid" => $key, "value" => $value, "func" => "val");
-		};
-	}
-	
 	function jqueryRemoveClass($uid, $value) {
 		$this->output["action"][] = array("do" => '$uid.func', "uid" => $uid, "value" => $value, "func" => "removeClass");
 	}
@@ -311,14 +297,13 @@ class coreAPI {
 			$data = array();
 			foreach ($data_in as $item) $data[] = $item;		
 			
-			/*
+			
 			foreach ($data as $row_id => $item_row) {
 				foreach ($item_row as $field => $value) {
 					if (in_array($field, array("OPERATION_DATE", "OPEN_DATE", "CLOSE_DATE"))) $data[ $row_id ][ $field ] = str_ireplace(' ', '&nbsp;', date("H:i:s, d.m.Y", $value));
 				};
 			};
-			*/
-			
+		
 			$this->output["action"][] = array("do" => 'dtSetData', "uid" => $uid, "data" => $data);
 			
 			return true;

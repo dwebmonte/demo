@@ -8,6 +8,7 @@
 			};
 			$s = (string) $s;
 			if (isset($s)) {
+				if (is_null(iDB::$rs)) iDB::connect();
 				return mysqli_real_escape_string(iDB::$rs, $s);
 			} else {
 				return $d;

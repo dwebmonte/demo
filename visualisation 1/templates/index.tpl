@@ -5,7 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta name="author" content="webmonte.net" />
-	<title class="cd_page_title">Загрузка контента</title>
+	<title>Загрузка контента</title>
 
 	<!-- <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Arimo:400,700,400italic"> -->
 	<link rel="stylesheet" href="{$smarty.const.ASSETS_PATH}/css/fonts/linecons/css/linecons.css">
@@ -55,17 +55,7 @@
 						<a href="{$smarty.const.HTTP_HOST}/{$smarty.const.ADMIN_ROUTE_URL}" class="logo-collapsed" style="color: white;font-size: 20px;position: relative;top: 4px;">							CRM						</a>
 					</div>
 					<!-- This will toggle the mobile menu and will be visible only on mobile devices -->
-					<div class="mobile-menu-toggle visible-xs">
-						<!--
-						<a href="#" data-toggle="user-info-menu">
-							<i class="fa-bell-o"></i>
-							<span class="badge badge-success">7</span>
-						</a>
-						-->
-						<a href="#" data-toggle="mobile-menu"><i class="fa-bars"></i></a>
-					</div>
-		
-		
+
 					<!-- This will open the popup with user profile settings, you can use for any purpose, just be creative -->
 					<!--
 					<div class="settings-icon">
@@ -81,7 +71,7 @@
 					<div class="sidebar-user-info-inner">
 						<a href="{$smarty.const.HTTP_HOST}/{$smarty.const.ADMIN_ROUTE_URL}profile" class="user-profile">
 							<img src="{$smarty.const.ASSETS_PATH}/images/user-4.png" class="img-circle img-corona" alt="user-pic" width="60" height="60">
-							<span><strong>{$smarty.session.user.name|default:"Admin"}</strong>Admin</span>
+							<span><strong data-elcor="sessionUser.shortName"></strong><label data-elcor="sessionUser.roleName"></label></span>
 						</a>
 					</div>
 				</section>
@@ -92,33 +82,13 @@
 		</div>
 		<div class="main-content">
 			<nav style="" class="navbar user-info-navbar"  role="navigation"><!-- User Info, Notifications and Menu Bar -->
-				
-				
-				<ul class="user-info-menu left-links list-inline list-unstyled">
-					<li class="hidden-sm hidden-xs"><a href="#" data-toggle="sidebar"><i class="fa-bars"></i></a></li>
-					
-<!--
-					<li class="dropdown hover-line language-switcher" style="min-height: 77px;">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-							<img style="width: 20px" src="{$smarty.const.ASSETS_PATH}/images/flags/flag-ru.jpg" alt="Русский">Русский
-						</a>
-			
-						<ul class="dropdown-menu languages">
-							<li>
-								<a href="#"><img src="{$smarty.const.ASSETS_PATH}/images/flags/flag-uk.png" alt="English">English</a>
-							</li>
-						</ul>
-					</li>					
-					-->
-				</ul>
-				
 				{include file="admin/b-user-info.tpl"}
 			</nav>
 			
 			<div class="page-title">
 				<div class="title-env">
-					<h1 class="title cd_page_title">Dashboard</h1>
-					<p class="description cd_page_description"></p>
+					<h1 class="title"></h1>
+					<p class="description"></p>
 				</div>
 				<div class="breadcrumb-env">
 					<ol class="breadcrumb bc-1" >
@@ -191,11 +161,16 @@
 	
 	
 	<!-- crystal.2.0  -->
+	<!-- 
 	<script src="{$smarty.const.ASSETS_PATH}/js/crystal.2.0/crData.js?v={$smarty.now}"></script>
 	<script src="{$smarty.const.ASSETS_PATH}/js/crystal.2.0/crDataTable.js?v={$smarty.now}"></script>	
 	<script src="{$smarty.const.ASSETS_PATH}/js/crystal.2.0/wm_event.js?v={$smarty.now}"></script>
 	<script src="{$smarty.const.ASSETS_PATH}/js/crystal.2.0/wm.js?v={$smarty.now}"></script>
-	<script src="{$smarty.const.ASSETS_PATH}/js/crystal.2.0/api.js?v={$smarty.now}"></script>
+	
+	<script src="{$smarty.const.ASSETS_PATH}/js/crystal.2.0/api.js?v={$smarty.now}"></script> 
+	-->
+	<script src="{$smarty.const.ASSETS_PATH}/js/wm/api.js?v={$smarty.now}"></script>
+	
 
 	<!-- devexpress  -->
 	<script src="{$smarty.const.ASSETS_PATH}/js/devexpress-web-14.1/js/globalize.min.js"></script>
@@ -208,6 +183,11 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>	
 	
+	
+	
+
+	
+	
 	<!-- (Ajax Modal)-->
 	<div class="modal fade ajax_wrapper" id="modal-bootstrap">
 		<div class="modal-dialog modal-lg">
@@ -218,6 +198,10 @@
 	</div>	
 	
 	<div class="page-loading-overlay"><div class="loader-2"></div></div>	
+	
+	
+	<script> var iCoreData = {$iCoreData}; </script>
+	<script src="{$smarty.const.ASSETS_PATH}/js/iCore/iCore-1.0.js?v={$smarty.now}"></script>
 	
 </body>
 </html>

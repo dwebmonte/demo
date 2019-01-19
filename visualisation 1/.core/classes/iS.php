@@ -7,20 +7,12 @@
 				//exit();
 			};
 			$s = (string) $s;
-			return mysqli_real_escape_string(iDB::$rs, $s);
-			
-			/*
 			if (isset($s)) {
-				if (defined("DB_HOST")) {
-					if (is_null(iDB::$rs)) iDB::connect(); 
-					return mysqli_real_escape_string(iDB::$rs, $s);
-				} else {
-					return addslashes(trim($s)); 
-				};
+				if (is_null(iDB::$rs)) iDB::connect();
+				return mysqli_real_escape_string(iDB::$rs, $s);
 			} else {
 				return $d;
 			}
-			*/
 		}
 
 		static function rs($v,$d=NULL) {

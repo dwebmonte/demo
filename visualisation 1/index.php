@@ -83,8 +83,10 @@ if (!is_null(iUser::user_id())) {
 	// Поиск страницы
 	$CDP = json_decode(file_get_contents("json/CDP.json"));
 	
+	//var_dump(ROUTE_URL, $CDP->page);	exit();
+	
 	foreach ($CDP->page as $url => $oPage) {
-		if ($url != '/' . PAGE_URL) continue;
+		if ($url != '/' . ROUTE_URL) continue;
 		
 		$O->smarty_template_index = ROOT . "templates/" . $oPage->{"template-index"};
 		$O->smarty_template_page = ROOT . "templates/" . $oPage->{"template-page"};
@@ -92,6 +94,7 @@ if (!is_null(iUser::user_id())) {
 	};
 	
 };
+
 
 
 if (!isset( $O->smarty_template_index )) {

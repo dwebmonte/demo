@@ -66,24 +66,24 @@
 				 <form method="POST" role="form" id="login-form" class="login-form fade-in-effect" api-set="login"> 
 					<div class="login-header">
 						<a href="#" class="logo" style="color: white;text-transform: uppercase;font-size: 22px;font-family: arial;">
-							{#loginHello#}
+							Welcome to the control panel!
 						</a>
-						<p>Введите логин и пароль для доступа к панели администратора</p>
+						<p>Enter username and password to access the admin panel</p>
 					</div>					
 	
 					<div class="form-group">
-						<label class="control-label" for="username">Логин</label>
+						<label class="control-label" for="username">Username</label>
 						<input type="text" class="form-control input-dark" name="login" autocomplete="off" />
 					</div>
 	
 					<div class="form-group">
-					<label class="control-label" for="passwd">Пароль</label>  
+					<label class="control-label" for="passwd">Password</label>  
 						<input type="password" class="form-control input-dark" name="password" autocomplete="off" />
 					</div>
 	
 					<div class="form-group">
 						<button type="submit" class="btn btn-dark  btn-block text-left">
-							<i class="fa-lock"></i>Войти
+							<i class="fa-lock"></i>Login
 						</button>
 					</div>
 	
@@ -100,7 +100,14 @@
 	<script src="{$smarty.const.ASSETS_PATH}/js/xenon-custom.js"></script>	
 	<script src="{$smarty.const.ASSETS_PATH}/js/bootstrap.min.js"></script>
 	<script src="{$smarty.const.ASSETS_PATH}/js/toastr/toastr.min.js"></script>
-	<script src="{$smarty.const.ASSETS_PATH}/js/crystal.2.0/api.js?v={$smarty.now}"></script>
+	
+	<!-- <script src="{$smarty.const.ASSETS_PATH}/js/crystal.2.0/api.js?v={$smarty.now}"></script> -->
+	
+	<script src="{$smarty.const.ASSETS_PATH}/js/wm/api.js?v={$smarty.now}"></script>
+	
+	
+
+	
 	
 
 </body>

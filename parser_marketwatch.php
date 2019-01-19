@@ -2,7 +2,7 @@
 
 require_once("classes/constants.php");
 require_once("classes/simple_html_dom.php");
-
+iCronWatch::param("marketwatch.com", "exec", 1);
 
 
 $marketwatch = new marketwatch();

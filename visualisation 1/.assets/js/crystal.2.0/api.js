@@ -63,11 +63,11 @@ function api_request(request, params, callbackFunc) {
 					break;
 					
 					case 'dtSetData': 
-						loadDataToForm(action.uid, action.data);					
+						//loadDataToForm(action.uid, action.data);					
 						
 						
-						//let DT = $( action.uid ).DataTable();
-						//DT.clear().rows.add( action.data ).draw();
+						let DT = $( action.uid ).DataTable();
+						DT.clear().rows.add( action.data ).draw();
 					break;
 					
 					default: console.log("API notice: unknown action do=\""+ action.do  +"\"");
@@ -127,14 +127,6 @@ $(document).ready(function()  {
 		return false;
 	});
 		
-		
-	$(document).on("click", "[api-href]", function(e) {
-		let $this = $(this);
-		
-		api_request($this.attr("api-href"), {  });		
-
-		return false;
-	});		
 	
 	API.sendRequestOnLoad();	
 });		

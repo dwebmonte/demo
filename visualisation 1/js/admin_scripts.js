@@ -5,6 +5,13 @@ function render_cell_article_title( data, type, row, meta ) {
 	} else return data.text;
 };
 
+
+function render_cell2( data, type, row, meta ) {
+	if (type == "display") {
+		return "ddddddddddddddddddddddddddddddd";
+	} else return data.text;
+};
+
 function render_cell_url( data, type, row, meta ) {
 	if (type == "display") {
 		return "<a style='' href='"+ data.url + "' target='_blank'>"+ data.text +"</a>";

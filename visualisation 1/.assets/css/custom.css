@@ -19,7 +19,7 @@ a {
 }
 
 
-
+/*
 .yadcf-filter, .yadcf-filter-date  {
 	display: block;
 	width: 100%;
@@ -40,13 +40,14 @@ a {
 	font-size: 12px;
 	font-weight: 400;
 }
+*/
 
 
 .panel .panel-body {
 	color: black;
 }
 
-
+/*
 .modal .modal-dialog .modal-content .modal-header {
 	color: white;
 	background-color: #68b828;
@@ -63,7 +64,8 @@ a {
 .modal .modal-dialog .modal-content .modal-header button.close{
 	color: white;
 }
-	
+*/
+
 .toast-info.black {
 	background-color: rgba(44,46,47,.8);
 }
@@ -112,7 +114,14 @@ th.wm_delete_cell {
 	width: 35px;padding-left: 0px;padding-right: 0px;text-align: center;
 }
 
-/* Первая ячейка для отметки удаления строк */
+
+
+
+.dataTable th, .dataTable td {
+    word-break: normal;
+}
+
+/* Первая ячейка для отметки удаления строк 
 .dataTable tr td:first-child, .dataTable tr th:first-child {
 	text-align: center;
 	padding-left: 8px !important;
@@ -120,7 +129,7 @@ th.wm_delete_cell {
 	vertical-align: middle;
 	width: 32px !important;
 }
-
+*/
 
 .dataTable .form-control {
 	width: 100%;

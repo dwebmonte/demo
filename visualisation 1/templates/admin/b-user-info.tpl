@@ -294,7 +294,7 @@
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 							<img src="{$smarty.session.user.image|default:"`$smarty.const.ASSETS_PATH`/images/user-4.png"}" alt="user-image" class="img-circle img-inline userpic-32" width="28" />
 							{* <span>{$smarty.session.user.login}&nbsp;<i class="fa-angle-down"></i></span> *}
-						<span><label data-elcor="sessionUser.shortName"></label>&nbsp;<i class="fa-angle-down"></i></span>
+						<span><label idata-text="sessionUser.short_name"></label>&nbsp;<i class="fa-angle-down"></i></span>
 						</a>
 			
 						<ul class="dropdown-menu user-profile-menu list-unstyled">

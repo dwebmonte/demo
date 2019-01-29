@@ -33,8 +33,10 @@
 	<page url="/articles-by-category/marketrealist" title="News by categories 1" description="News by categories" template-page="article_by_category_marketrealist.tpl">	</page>	
 	<page url="/articles-by-category/marketrealist1" title="News by categories 1" description="News by categories" template-page="article_by_category_marketrealist1.tpl">	</page>	
 	
+	<page url="/test" title="News by categories 1" description="News by categories" template-page="test.tpl">	</page>	
 	
-	<item url="/articles-cat" icon="fa-sitemap">News by categories</item>
+	
+<!-- <item url="/articles-cat" icon="fa-sitemap">News by categories</item> -->
 	
 	<page url="/testing-related" title="Related articles" description="" template-page="admin/testing-related.tpl">
 		<table name="article"  parent="#user_article_wrapper" read-only="true" autoinc="true">

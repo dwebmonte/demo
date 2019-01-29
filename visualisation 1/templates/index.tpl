@@ -69,9 +69,9 @@
 				
 				<section class="sidebar-user-info">
 					<div class="sidebar-user-info-inner">
-						<a href="{$smarty.const.HTTP_HOST}/{$smarty.const.ADMIN_ROUTE_URL}profile" class="user-profile">
+						<a href="#" class="user-profile">
 							<img src="{$smarty.const.ASSETS_PATH}/images/user-4.png" class="img-circle img-corona" alt="user-pic" width="60" height="60">
-							<span><strong data-elcor="sessionUser.shortName"></strong><label data-elcor="sessionUser.roleName"></label></span>
+							<span><strong idata-text="sessionUser.short_name"></strong><label idata-text="sessionUser.access"></label></span>
 						</a>
 					</div>
 				</section>
@@ -92,20 +92,16 @@
 				</div>
 				<div class="breadcrumb-env">
 					<ol class="breadcrumb bc-1" >
-						<li><a href="http://{$smarty.const.DOMAIN}"><i class="fa-home"></i><span class="title">Dashboard</span></a></li>
-
-			<!--
-					<li><a href="ui-panels.html">UI Elements</a></li>
-					<li class="active"><strong>Panels</strong></li>
-			-->
+						<li><a href="http://{$smarty.const.DOMAIN}"><i class="fa-home"></i><span class="title">Home</span></a></li>
+						<li class="active"><strong idata-text="currentPage.title"></strong></li>
 					</ol>
 				</div>
 			</div>
 			
-			
+
 			
 			{* <div class="row"><div class="col-sm-12">{include file="admin/widget.tpl"}</div></div> *}
-			<div id="workArea" style="min-height: 500px">
+			<div id="workArea" style="min-height: 500px" cid="workArea">
 				{include file=$template_page}
 			</div>
 			
@@ -114,13 +110,14 @@
 	</div>
 	
 	
+	<script src="{$smarty.const.ASSETS_PATH}/js/datatables/datatables.min-arrange.js"></script>	
 	
 
 	<script src="{$smarty.const.ASSETS_PATH}/js/history/history.min.js?v={$smarty.now}"></script>
 
 	<!-- Bottom Scripts -->
 	<script src="{$smarty.const.ASSETS_PATH}/js/bootstrap.min.js"></script>
-	<script src="{$smarty.const.ASSETS_PATH}/js/jquery.cookie.js"></script>
+	<!-- <script src="{$smarty.const.ASSETS_PATH}/js/jquery.cookie.js"></script> -->
 	
 	<script src="{$smarty.const.ASSETS_PATH}/js/TweenMax.min.js"></script>
 	<script src="{$smarty.const.ASSETS_PATH}/js/resizeable.js"></script>
@@ -141,7 +138,7 @@
 	<script src="{$smarty.const.ASSETS_PATH}/js/datatables/js/jquery.dataTables.min.js"></script> 
 	<script src="{$smarty.const.ASSETS_PATH}/js/datatables/dataTables.bootstrap.js"></script>
 	-->
-	<script src="https://cdn.datatables.net/v/bs/jqc-1.12.4/dt-1.10.18/af-2.3.0/cr-1.5.0/fc-3.2.5/fh-3.1.4/kt-2.4.0/r-2.2.2/rg-1.0.3/rr-1.2.4/sc-1.5.0/sl-1.2.6/datatables.min.js"></script>
+	
 	
 <!--
 	<script src="{$smarty.const.ASSETS_PATH}/js/datatables/yadcf/jquery.dataTables.yadcf.js"></script>
@@ -169,7 +166,7 @@
 	
 	<script src="{$smarty.const.ASSETS_PATH}/js/crystal.2.0/api.js?v={$smarty.now}"></script> 
 	-->
-	<script src="{$smarty.const.ASSETS_PATH}/js/wm/api.js?v={$smarty.now}"></script>
+
 	
 
 	<!-- devexpress  -->
@@ -201,7 +198,12 @@
 	
 	
 	<script> var iCoreData = {$iCoreData}; </script>
+	
+	<script src="{$smarty.const.ASSETS_PATH}/js/wm/api.js?v={$smarty.now}"></script>
+	<script src="{$smarty.const.ASSETS_PATH}/js/iCore/iHTML-1.0.js?v={$smarty.now}"></script>
+	<script src="{$smarty.const.ASSETS_PATH}/js/iCore/iDataTable-1.0.js?v={$smarty.now}"></script>
 	<script src="{$smarty.const.ASSETS_PATH}/js/iCore/iCore-1.0.js?v={$smarty.now}"></script>
+	
 	
 </body>
 </html>

@@ -365,7 +365,7 @@ var public_vars = public_vars || {};
 			{
 				var $this = $(el),
 					opts = {
-						format: attrDefault($this, 'format', 'mm/dd/yyyy'),
+						format: attrDefault($this, 'format', 'dd/mm/yyyy'),
 						startDate: attrDefault($this, 'startDate', ''),
 						endDate: attrDefault($this, 'endDate', ''),
 						daysOfWeekDisabled: attrDefault($this, 'disabledDays', ''),
@@ -482,8 +482,8 @@ var public_vars = public_vars || {};
 		// Timepicker
 		if($.isFunction($.fn.timepicker))
 		{
-			$(".timepicker").each(function(i, el)
-			{
+	
+			$(".timepicker").each(function(i, el)			{
 				var $this = $(el),
 					opts = {
 						template: attrDefault($this, 'template', false),
@@ -1121,8 +1121,7 @@ var public_vars = public_vars || {};
 var sm_duration = .2,
 	sm_transition_delay = 150;
 
-function setup_sidebar_menu()
-{
+function setup_sidebar_menu() {
 	if(public_vars.$sidebarMenu.length)
 	{
 		var $items_with_subs = public_vars.$sidebarMenu.find('li:has(> ul)'),
@@ -1159,6 +1158,8 @@ function setup_sidebar_menu()
 
 			$a.on('click', function(ev)
 			{
+				
+			
 				ev.preventDefault();
 
 				if(toggle_others)

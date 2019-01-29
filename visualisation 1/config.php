@@ -34,6 +34,17 @@ if ($_SERVER["HTTP_HOST"] == "aleney.com") {
 	
 	//define("ASSETS_PATH", "http://aleney.com/aggnews.tickeron.com/visualisation 1/.assets");
 	define("ASSETS_PATH", "http://aleney.com/crm/.assets");
+} elseif ($_SERVER["HTTP_HOST"] == "aggnews-test.tickeron.com") {
+	define('DB_HOST', 'localhost');
+	define('DB_USER', 'root');
+	define('DB_PASSWORD', '_Tarakan1');
+	define('DB_NAME', 'news_aggregator');
+
+	define("DOMAIN", "aggnews-test.tickeron.com");
+	define("SCHEME", "https");	
+	
+	define("ASSETS_PATH", "/.assets");
+	
 } else {
 	define('DB_HOST', 'localhost');
 	define('DB_USER', 'root');

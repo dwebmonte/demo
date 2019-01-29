@@ -7,8 +7,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta name="author" content="webmonte.net" />
 
-	<title>Войти в панель управления</title>
-	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Arimo:400,700,400italic">
+	<title>Welcome to the control panel!</title>
+	<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Arimo:400,700,400italic"> -->
 	<link rel="stylesheet" href="{$smarty.const.ASSETS_PATH}/css/fonts/fontawesome/css/font-awesome.min.css">
 	<link rel="stylesheet" href="{$smarty.const.ASSETS_PATH}/css/bootstrap.css">
 	<link rel="stylesheet" href="{$smarty.const.ASSETS_PATH}/css/xenon-core.css">

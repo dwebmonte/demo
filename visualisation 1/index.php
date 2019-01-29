@@ -128,10 +128,37 @@ $SM->assign("API", $API);
 if (stripos($_REQUEST["route_url"], "api/") === 0) {
 	header('Content-Type: application/json');
 	
+	
+	
 	$_REQUEST["params"] = $_REQUEST;
 	//$_REQUEST["c"] = "API";	
 	//$_REQUEST["e"] = "onRequest";
 	$_REQUEST["do"] = str_ireplace("api/", "", $_REQUEST["route_url"]);
+
+	$obj = new API();
+	$obj->onRequest( );	
+	
+	exit();
+};
+
+
+
+$iData = new iData();
+
+// Direct call by GATE
+if (stripos($_REQUEST["route_url"], "gate/") === 0) {
+	
+	
+	
+	
+	exit();
+	
+	header('Content-Type: application/json');
+	
+	$_REQUEST["params"] = $_REQUEST;
+	//$_REQUEST["c"] = "API";	
+	//$_REQUEST["e"] = "onRequest";
+	$_REQUEST["do"] = str_ireplace("gate/", "", $_REQUEST["route_url"]);
 
 	$obj = new API();
 	$obj->onRequest( );	

@@ -389,83 +389,19 @@ if (isset($_REQUEST["cnbc_cat"])) {
 	exit();
 };
 
-
-
-
-
-
-
-
-
-// Definition page
-
-
-/*
-$elCor = array( "com" => array() );
-
-$elCor["com"]["pageInfo"] = array("title" => "Dashboard", "header" => "Dashboard header", "description" => "Dashboard description");
-$elCor["com"]["sessionUser"] = array("shortName" => "John Smith", "roleName" => "administrator");	
-
-$SM->assign("elCor", json_encode($elCor));
-*/
-
-$iCoreData = array();
-$iCoreData[] = array(
-	"name" => "server",
-	"data" => array(
-		"scheme" => SCHEME, 
-		"domain" => DOMAIN
-	),
-);
-
-$iCoreData[] = array(
-	"class" => "iLeftMenu",
-	"name" => "leftMenu",
+if (isset($_REQUEST["test_add_user"])) {
 	
+	$row_user = array(
+		"short_name" => $_REQUEST["name"],
+		"email" => $_REQUEST["email"],
+		"password" => $_REQUEST["password"],
+		"access" => $_REQUEST["access"],
+	);
+	iDB::insertSQL("user", $row_user);
 	
-/*
-		<item url="/" icon="fa-cogs">System</item>
-		<item url="/trends" icon="fa-globe">Trends</item>
-		<item url="/articles-by-category" icon="fa-sitemap">News by categories</item>
-		<item url="/articles" icon="fa-newspaper-o">Articles</item>
-		<item url="/logs" icon="fa-tasks">Logs</item>
-		<item url="/proxy" icon="fa-cloud-download">Proxy</item>
-		<item url="/testing" icon="fa-cubes">Categories</item>
-		<item url="/testing-related" icon="fa-random">Related articles</item>
-*/
-	
-	
-	
-	"data" => array(
-		array("title" => "System", "url" => "", "icon" => "fa-cogs"),
-		array("title" => "Trends", "url" => "trends", "icon" => "fa-globe", "items" =>
-			array(
-				array("title" => "cnbc.com", "url" => "trends/cnbc"),
-				array("title" => "marketrealist.com", "url" => "trends/marketrealist"),
-			)
-		),
-		array("title" => "News by categories", "url" => "articles-by-category", "icon" => "fa-sitemap", "items" =>
-			array(
-				array("title" => "cnbc.com", "url" => "articles-by-category/cnbc"),
-				array("title" => "marketrealist.com", "url" => "articles-by-category/marketrealist1"),
-				array("title" => "marketrealist.com (KB)", "url" => "articles-by-category/marketrealist"),
-			)
-		),
-		array("title" => "Articles", "url" => "articles", "icon" => "fa-newspaper-o"),
-		array("title" => "Logs", "url" => "logs", "icon" => "fa-tasks"),
-		array("title" => "Proxy", "url" => "proxy", "icon" => "fa-cloud-download"),
-		array("title" => "Categories", "url" => "testing", "icon" => "fa-cubes"),
-		array("title" => "Related articles", "url" => "testing-related", "icon" => "fa-random"),		
-	)
-);
+	//var_dump( $iData->data );
+	$iData->data["dt_user"]["data"]["data"] = iDB::rows("SELECT short_name, access, email, password, 1 as cell_opt  FROM user");
+};
 
-
-
-$SM->assign("iCoreData", json_encode($iCoreData));
-
-
-
-
-
-
+$iData->assign();
 

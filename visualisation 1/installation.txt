@@ -12,4 +12,3 @@
 	если http://mysite/crm, то там будет value="/crm"
 	если http://mysite/crm/trend, то там будет value="/crm/trend"
 	
-4. Открываем файл /etc/httpd/conf/httpd.conf, ищем <Directory /var/www/html> и меняем у него AllowOverride на All

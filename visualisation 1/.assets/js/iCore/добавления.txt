@@ -1,0 +1,1 @@
+К id="workArea" добавить cid="workArea

@@ -79,6 +79,10 @@ iEvent::fire("onDefinePage");
 
 
 if (!is_null(iUser::user_id())) {
+	$O->smarty_template_index = ROOT . "templates/index404.tpl";
+	$O->smarty_template_page = ROOT . "templates/404.tpl";
+
+	
 	
 	// Поиск страницы
 	$CDP = json_decode(file_get_contents("json/CDP.json"));

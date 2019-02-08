@@ -1,3 +1,15 @@
+/*
+	title - если задано, то в панели. Если пустое, то в панели без названия и рамки. Если отсутствует, то просто панель
+	
+	
+	
+	
+*/
+
+
+
+
+
 function iDataTable( obj ) {
 	var oData;
 	
@@ -56,11 +68,13 @@ function iDataTable( obj ) {
 							<div class='panel-heading'>${oData.title}</div>
 							<div class='panel-body'><table iuid="${data.name}" class="table responsive"></table></div>
 						</div>`;			
-				} else {
+				} else if ( oData.title !== undefined) {
 					html = 
-						`<div class='panel panel-default panel-border'>
+						`<div class='panel panel-default'>
 							<div class='panel-body'><table iuid="${data.name}" class="table responsive"></table></div>
 						</div>`;				
+				} else {
+					html = `<table style="width: 100%" iuid="${data.name}" class="table responsive"></table>`;								
 				};
 			
 				

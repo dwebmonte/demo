@@ -186,8 +186,14 @@ class iDB {
 	static function update($query) {
 		if (is_null(self::$rs)) self::connect();
 		mysqli_query(self::$rs,$query) or self::error($query);
-		//return mysql_affected_rows(self::$rs);
+		return mysqli_affected_rows(self::$rs);
 	}
+	
+	static function delete($query) {
+		if (is_null(self::$rs)) self::connect();
+		mysqli_query(self::$rs,$query) or self::error($query);
+		return mysqli_affected_rows(self::$rs);
+	}	
 
 	static function exec($query) {
 		if (is_null(self::$rs)) self::connect();

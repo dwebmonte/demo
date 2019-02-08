@@ -1,5 +1,16 @@
 "use strict";
 
+/*
+	
+	<input name="name" fg-label="Name" fg-label-col="" fg-separator="true"/>
+	<select name="access" fg-label="Access" fg-separator="true" data-value='"admin":"admin", "writer":"writer"' value="writer"></select>
+	<button fg-label="">Add user</button>
+	
+	
+	
+*/
+
+
 $("[fg-label]").each(function(i, elem) {
 	let $el = $(elem), html = "";
 	
@@ -13,6 +24,11 @@ $("[fg-label]").each(function(i, elem) {
 						<div class="col-sm-${input_col_sm}">`+ $el.addClass("form-control").prop('outerHTML') +`</div>
 					</div>`;		
 		
+	} else if ($el.is("textarea")) {	
+		html = `<div class="form-group">
+						<label class="col-sm-${label_col_sm} control-label">`+ $el.attr("fg-label") +`</label>
+						<div class="col-sm-${input_col_sm}">`+ $el.addClass("form-control").prop('outerHTML') +`</div>
+					</div>`;		
 		
 	} else if ($el.is("select")) {
 		

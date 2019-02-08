@@ -74,23 +74,32 @@ define("PAGE_URL", $page_url);
 
 session_write_close();
 
-iCronWatch::param("cron koef", "exec", 1);
-
-
-// Очистка старых данных
-$iObserver = new iObserver();
-$iObserver->clean_old_data();
+$max_sec_exec = 40;
+$start = time();
+iCronWatch::param_start("cron.php", "execution");
 
 
 
+$iCron = new iCron();
+
+// Устанавливаем время выполнения
+$iCron->set_max_exec_time( $iCron->option->cron1->max_time_exec );
+
+// Очищаем старые данные
+$iCron->clean_old_data();
+
+// Добавляем статьи в search и обновляем uid
+$iCron->add_new_article_to_search();
+
+// Добавляем новые статьи в коеффициенты
+$iCron->add_new_article_to_koef();
+exit();
 
 
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~			Добавляем статьи в search
-iDB::exec("INSERT IGNORE INTO `search` (id, title, `text_300w`, `md5`) SELECT id, title, LOWER(SUBSTRING_INDEX(`text`,' ',300)) as text_300w, md5(A.url) FROM article A WHERE A.parsed=1 AND A.`text`!=''");
-iDB::exec("UPDATE article SET uid=MD5(CONCAT(SUBSTRING_INDEX(url, '/', 3), '-', title))");
 
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~			Добавляем новые статьи в коеффициенты
+iCronWatch::param_start("cron.php", "Adding new articles to koef");
 
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~			Добавляем статьи в коеффициенты
 iDB::exec("UPDATE `search` S, `article` A SET S.time_added=A.time_added WHERE S.md5=A.md5 AND S.site_id=1");
 iDB::exec("UPDATE `koef` K, `search` S SET time_from=time_added, time_to=time_added WHERE K.id_1=S.id");
 iDB::exec("UPDATE `koef` K, `search` S SET time_from=LEAST(time_from, time_added), time_to=GREATEST(time_to, time_added) WHERE K.id_2=S.id");
@@ -98,9 +107,12 @@ iDB::exec("UPDATE `koef` K, `search` S SET time_from=LEAST(time_from, time_added
 $API->onRequest("Article/Update/FT", null, "local");
 $API->onRequest("Article/Update/Koef", null, "local");
 
+iCronWatch::param_end("cron.php", "Adding new articles to koef", 1);
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~			Распознаем категории в статьях
-$start = time();
-$max_sec_exec = 60;
+
+
+
+
 $limit_article = 1;
 
 for ($level = 0; $level <= 2; $level++) {
@@ -129,13 +141,13 @@ for ($level = 0; $level <= 2; $level++) {
 		
 		iDB::update("UPDATE article SET `time`=`time`, category_id{$level}={$category_id} WHERE id={$item_article->id}");
 		
-		/*
+		
 		// Если скрипт выполняется больше положенного, то прерываем его
 		if (!is_null($max_sec_exec) && (time() - $start - 1 >= $max_sec_exec)) {
 			trigger_error( "Article/Categories/Join -- Script was stopped. Time limit is over {$max_sec_exec} sec.", E_USER_WARNING);
 			break;
 		};
-		*/
+		
 		
 	};
 };
@@ -158,6 +170,9 @@ trigger_error( 'API Update/Exchange -- Time execution: '.round(microtime(true) -
 // https://aggnews.tickeron.com/api/Article/Update/FT?show=1&repeat=5000
 // https://aggnews.tickeron.com/api/Article/Update/Koef?show=1&repeat=5000
 
-iCronWatch::param("cron koef", "finish", 1);
+iCronWatch::param_end("cron.php", "execution", "all tasks");
 
 exit();
+
+
+// ALTER TABLE `cron_watch_param` MODIFY COLUMN `time` DATETIME, ADD COLUMN `time_start` DATETIME AFTER `time`;

@@ -21,8 +21,9 @@ session_start();
 date_default_timezone_set('Europe/Kiev');
 
 
-//$server_addr = isset($_SERVER["HTTP_HOST"]) ? $_SERVER["SERVER_ADDR"] : $_SERVER["LOCAL_ADDR"];
 
+/* 			Локальный сервер 				*/
+	
 if ($_SERVER["HTTP_HOST"] == "aleney.com") {
 	define('DB_HOST', 'localhost');
 	define('DB_USER', 'root');
@@ -32,8 +33,11 @@ if ($_SERVER["HTTP_HOST"] == "aleney.com") {
 	define("DOMAIN", "aleney.com/aggnews.tickeron.com/visualisation 1");
 	define("SCHEME", "http");
 	
-	//define("ASSETS_PATH", "http://aleney.com/aggnews.tickeron.com/visualisation 1/.assets");
-	define("ASSETS_PATH", "http://aleney.com/crm/.assets");
+	define("ASSETS_PATH", "http://aleney.com/crm/.assets");	
+	define("CORE_PATH", "../../crm/.core/");
+	
+/* 			Тестовый сервер 				*/
+
 } elseif ($_SERVER["HTTP_HOST"] == "aggnews-test.tickeron.com") {
 	define('DB_HOST', 'localhost');
 	define('DB_USER', 'root');
@@ -44,6 +48,10 @@ if ($_SERVER["HTTP_HOST"] == "aleney.com") {
 	define("SCHEME", "https");	
 	
 	define("ASSETS_PATH", "/.assets");
+	define("CORE_PATH", ".core/");
+	
+	
+/* 			Рабочий сервер 				*/	
 	
 } else {
 	define('DB_HOST', 'localhost');
@@ -55,15 +63,15 @@ if ($_SERVER["HTTP_HOST"] == "aleney.com") {
 	define("SCHEME", "https");	
 	
 	define("ASSETS_PATH", "/.assets");
-	
+	define("CORE_PATH", ".core/");
 };
 	
 	
-	define("CORE_PATH", ".core/");
 	
 	
-	define("DEVELOPE", true);		
-	define("IS_LOCALHOST", true);
+	
+define("DEVELOPE", true);		
+define("IS_LOCALHOST", true);
 
 define("ADMIN_ROUTE_URL", "");
 

@@ -1,6 +1,6 @@
 "use strict";
+var iCore = {varPage: {workAreaID: "workArea"}};
 
-var iCore = {};
 console.info( iCoreData );
 
 $(document).ready(function()  {
@@ -61,6 +61,7 @@ function iLeftMenu( obj ) {
 			
 			this.oData.forEach(function (item1, index1) {
 				if (item1.url === undefined) item1.url = "";
+				item1.pageUrl = item1.url;
 				if (item1.url != "") item1.url = iCore.server.domain + "/" + item1.url; else item1.url = iCore.server.domain;
 				
 				item1.icon = (item1.icon !== undefined) ? "<i class='" + item1.icon + "'></i>" : "";
@@ -87,7 +88,9 @@ function iLeftMenu( obj ) {
 					item1.items.forEach(function (item2, index2) {
 
 						if (item2.url === undefined) item2.url = "";
+						item2.pageUrl = item2.url;
 						if (item2.url != "") item2.url = iCore.server.domain + "/" + item2.url; else item2.url = iCore.server.domain;
+						
 						
 						item2.icon = (item2.icon !== undefined) ? "<i class='" + item2.icon + "'></i>" : "";
 						if (item2.title === undefined) item2.icon = item2.url;
@@ -112,8 +115,13 @@ function iLeftMenu( obj ) {
 			
 			if ( $("#main-menu").length != 1) console.error("#main-menu length = " + $("#main-menu").length); else $("#main-menu").html( html );			
 			
-			
+			// прорисовка левого меню
 			setup_sidebar_menu();
+			
+			// выставляем параметр текущей страницы в рабочей области
+			if ( iCore.currentPage && iCore.varPage.workAreaID ) {
+				$('#' + iCore.varPage.workAreaID).attr("iid", iCore.currentPage.pageUrl);
+			};
 		}	
 	});	
 	

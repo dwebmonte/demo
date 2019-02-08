@@ -23,10 +23,10 @@
 	
 
 	
-	<page url="/" title="Cron status" description="Current trends" template-page="cron_status.tpl">	</page>	
+	<page url="/cron_status" title="Cron status" description="Current trends" template-page="cron_status.tpl" access="admin">	</page>	
 	
-	<page url="/trends/cnbc" title="Trends 1" description="Current trends" template-page="trends.tpl">	</page>	
-	<page url="/trends/marketrealist" title="Trends 1" description="Current trends" template-page="trends_marketrealist.tpl">	</page>	
+	<page url="/" title="Trends 1" description="Current trends" template-page="trends.tpl">	</page>	
+	<page url="/trends-marketrealist" title="Trends 1" description="Current trends" template-page="trends_marketrealist.tpl">	</page>	
 
 	
 	<page url="/articles-by-category/cnbc" title="News by categories 1" description="News by categories" template-page="article_by_category.tpl">	</page>	

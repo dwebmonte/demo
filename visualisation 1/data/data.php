@@ -22,16 +22,16 @@ $data = array(
 // 
 
 
-/*
+
 	if (isset($_SESSION["user"]) && $_SESSION["user"]["access"] == "admin") {
 		$data["leftMenu"] = array(
 			"class" => "iLeftMenu",
 			"data" => array(
-				array("title" => "System", "url" => "", "icon" => "fa-cogs"),
-				array("title" => "Trends", "url" => "trends", "icon" => "fa-globe", "items" =>
+				array("title" => "System", "url" => "cron_status", "icon" => "fa-cogs"),
+				array("title" => "Trends", "url" => "", "icon" => "fa-globe", "items" =>
 					array(
-						array("title" => "cnbc.com", "url" => "trends/cnbc"),
-						array("title" => "marketrealist.com", "url" => "trends/marketrealist"),
+						array("title" => "cnbc.com", "url" => ""),
+						array("title" => "marketrealist.com", "url" => "trends-marketrealist"),
 					)
 				),
 				array("title" => "News by categories", "url" => "articles-by-category", "icon" => "fa-sitemap", "items" =>
@@ -53,11 +53,10 @@ $data = array(
 		$data["leftMenu"] = array(
 			"class" => "iLeftMenu",
 			"data" => array(
-				array("title" => "System", "url" => "", "icon" => "fa-cogs"),
-				array("title" => "Trends", "url" => "trends", "icon" => "fa-globe", "items" =>
+				array("title" => "Trends", "url" => "", "icon" => "fa-globe", "items" =>
 					array(
-						array("title" => "cnbc.com", "url" => "trends/cnbc"),
-						array("title" => "marketrealist.com", "url" => "trends/marketrealist"),
+						array("title" => "cnbc.com", "url" => ""),
+						array("title" => "marketrealist.com", "url" => "trends-marketrealist"),
 					)
 				),
 				array("title" => "News by categories", "url" => "articles-by-category", "icon" => "fa-sitemap", "items" =>
@@ -71,16 +70,17 @@ $data = array(
 			)
 		);
 	}
-*/
 
+
+	/*
 		$data["leftMenu"] = array(
 			"class" => "iLeftMenu",
 			"data" => array(
-				array("title" => "System", "url" => "", "icon" => "fa-cogs"),
-				array("title" => "Trends", "url" => "trends", "icon" => "fa-globe", "items" =>
+				array("title" => "System", "url" => "cron_status", "icon" => "fa-cogs"),
+				array("title" => "Trends", "url" => "", "icon" => "fa-globe", "items" =>
 					array(
-						array("title" => "cnbc.com", "url" => "trends/cnbc"),
-						array("title" => "marketrealist.com", "url" => "trends/marketrealist"),
+						array("title" => "cnbc.com", "url" => ""),
+						array("title" => "marketrealist.com", "url" => "trends-marketrealist"),
 					)
 				),
 				array("title" => "News by categories", "url" => "articles-by-category", "icon" => "fa-sitemap", "items" =>
@@ -98,3 +98,4 @@ $data = array(
 				array("title" => "Users", "url" => "test", "icon" => "fa-user"),		
 			)
 		);
+*/
